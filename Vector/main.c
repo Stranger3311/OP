@@ -3,7 +3,9 @@
 
 int main(){
 
-    vector v = createVector(0);
+    vector v = createVector(100);
+
+    reserve(&v, 1);
 
     return 0;
 }

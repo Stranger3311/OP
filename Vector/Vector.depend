@@ -1,9 +1,9 @@
 # depslib dependency file v1.0
-1708964316 source:d:\github\op\vector\main.c
+1708967532 source:d:\github\op\vector\main.c
 	<stdio.h>
 	"Vector_bibl.h"
 
-1708964569 d:\github\op\vector\vector_bibl.h
+1708968119 d:\github\op\vector\vector_bibl.h
 	<malloc.h>
 	<stdio.h>
 

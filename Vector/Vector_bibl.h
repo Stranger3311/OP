@@ -26,4 +26,24 @@ vector createVector(size_t n){
     return vector;
 }
 
+void reserve(vector *v, size_t newCapacity){
+
+    if (newCapacity == 0){
+        v->data = NULL;
+    }
+
+    if (newCapacity < v->size){
+        v->size = newCapacity;
+    }
+
+    v->capacity = newCapacity;
+    v->data = (int *) realloc(v->data, newCapacity * sizeof(int));
+
+    if (v->data == NULL){
+        fprintf(stderr, "bad alloc");
+        exit(1);
+    }
+
+}
+
 #endif // VECTOR_BIBL_H_INCLUDED

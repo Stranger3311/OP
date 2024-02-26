@@ -1,8 +1,9 @@
 #include <stdio.h>
-#include <stdlib.h>
+#include "Vector_bibl.h"
 
-int main()
-{
-    printf("Hello world!\n");
+int main(){
+
+    vector v = createVector(0);
+
     return 0;
 }

@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "Vector_bibl.h"
+#include <assert.h>
 
 void test_pushBack_emptyVector(){
 
@@ -73,8 +74,8 @@ void test_front_oneElementInVector(){
     v.size = 1;
     v.data[0] = 30;
 
-    printf("\nfront_oneElementInVector address: %d \n", back(&v));
-    printf("\nfront_oneElementInVector value: %d \n", *back(&v));
+    printf("\nfront_oneElementInVector address: %d \n", front(&v));
+    printf("\nfront_oneElementInVector value: %d \n", *front(&v));
 }
 
 tests(){
@@ -91,14 +92,22 @@ tests(){
 
 
 int main(){
-
+/*
     vector v = createVector(3);
 
     v.size = 3;
     v.data[0] = 40;
     v.data[1] = 40;
     v.data[2] = 40;
-    //v.data[3] = 40;
+    //v.data[3] = 40;*/
+
+    vector v = createVector(0);
+pushBack(&v, 10);
+assert(v.size == 1);
+popBack(&v);
+assert(v.size == 0);
+assert(v.capacity == 1);
+
 
     //printf("%d", atVector(&v,2));
 

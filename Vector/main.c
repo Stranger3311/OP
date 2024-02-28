@@ -1,6 +1,8 @@
-#include <stdio.h>
+#include "Void_Vector_bibl.h"
 #include "Vector_bibl.h"
 #include <assert.h>
+#include <stdio.h>
+
 
 void test_pushBack_emptyVector(){
 
@@ -101,14 +103,6 @@ int main(){
     v.data[2] = 40;
     //v.data[3] = 40;*/
 
-    vector v = createVector(0);
-pushBack(&v, 10);
-assert(v.size == 1);
-popBack(&v);
-assert(v.size == 0);
-assert(v.capacity == 1);
-
-
     //printf("%d", atVector(&v,2));
 
     //printf("%d ", back(&v));
@@ -125,7 +119,33 @@ assert(v.capacity == 1);
 
     //printf("%d", isEmpty(&v));
 
-    tests();
+    //tests();
+
+    size_t n = 0;
+
+    vectorVoid v = createVoidVector(&n, sizeof(int));
+
+    v.data[0] = 4;
+    v.size = 1;
+
+    char *source = (char *) v->data + index * v->baseTypeSize;
+    memcpy(destination, source, v->baseTypeSize);
+
+
+
+    printf("%d", );
+
+    /*for (int i = 0; i < n; i++) {
+        int x;
+        scanf("%d", &x);
+        pushBackVoid(&v, &x);
+    }
+
+    for (int i = 0; i < n; i++) {
+        int x;
+        getVoidVectorValue(&v, i, &x);
+        printf("%d ", x);
+    }*/
 
 
     return 0;

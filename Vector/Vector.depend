@@ -1,11 +1,17 @@
 # depslib dependency file v1.0
-1709107970 source:d:\github\op\vector\main.c
-	<stdio.h>
+1709130070 source:d:\github\op\vector\main.c
+	"Void_Vector_bibl.h"
 	"Vector_bibl.h"
 	<assert.h>
+	<stdio.h>
 
 1709049501 d:\github\op\vector\vector_bibl.h
 	<stdbool.h>
+	<malloc.h>
+	<stdio.h>
+
+1709130080 d:\github\op\vector\void_vector_bibl.h
+	<limits.h>
 	<malloc.h>
 	<stdio.h>
 

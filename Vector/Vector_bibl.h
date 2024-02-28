@@ -52,7 +52,7 @@ void clear(vector *v){
 
 }
 
-void shrinkToFir(vector *v){
+void shrinkToFit(vector *v){
 
     v->data = (int *) realloc(v->data, v->size);
 

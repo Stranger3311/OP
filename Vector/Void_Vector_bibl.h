@@ -17,18 +17,20 @@ typedef struct vectorVoid{
                         // то поле baseTypeSize = sizeof(float)
 }vectorVoid;
 
-vectorVoid createVoidVector(size_t *n, size_t baseTypeSize){
+vectorVoid createVoidVector(size_t n, size_t baseTypeSize){
 
     vectorVoid vector;
 
-    vector.data = (void *) malloc(*n * baseTypeSize);
+    vector.data = malloc(n * baseTypeSize);
     vector.size = 0;
-    vector.capacity = *n;
+    vector.capacity = n;
 
     if (vector.data == NULL){
         fprintf(stderr, "bad alloc");
         exit(1);
     }
+
+    vector.baseTypeSize = baseTypeSize;
 
     return vector;
 }
@@ -83,8 +85,33 @@ bool isFullVoid(vectorVoid *v){
 
 void getVoidVectorValue(vectorVoid *v, size_t index, void *destination){
 
-    destination = v->data[index];
+    char *source = (char *) v->data + index * v->baseTypeSize;
+    memcpy(destination, source, v->baseTypeSize);
 
+}
+
+void setVoidVectorValue(vectorVoid *v, size_t index, void *source){
+
+    char *destination = (char *) v->data + index * v->baseTypeSize;
+    memcpy(destination, source, v->baseTypeSize);
+
+}
+
+void popBackVoid(vectorVoid *v){
+
+    if (!v->size){
+        fprintf(stderr, "size = 0 error");
+        exit(1);
+    }
+
+    (v->size)--;
+
+}
+
+void pushBackVoid(vectorVoid *v, void *source){
+
+    char *destination = (char *) v->data + (v->size - 1) * v->baseTypeSize;
+    memcpy(destination, source, v->baseTypeSize);
 }
 
 #endif // VOID_VECTOR_BIBL_H_INCLUDED

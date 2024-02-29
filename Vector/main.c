@@ -94,59 +94,9 @@ tests(){
 
 
 int main(){
-/*
-    vector v = createVector(3);
 
-    v.size = 3;
-    v.data[0] = 40;
-    v.data[1] = 40;
-    v.data[2] = 40;
-    //v.data[3] = 40;*/
-
-    //printf("%d", atVector(&v,2));
-
-    //printf("%d ", back(&v));
-    //printf("%d", front(&v));
-
-    //printf("%d\n", getVectorValue(&v,2));
-    //reserve(&v, 1);
-
-    //popBack(&v);
-
-    //pushBack(&v, 41);
-
-    //clear(&v);
-
-    //printf("%d", isEmpty(&v));
-
-    //tests();
-
-    size_t n = 0;
-
-    vectorVoid v = createVoidVector(&n, sizeof(int));
-
-    v.data[0] = 4;
-    v.size = 1;
-
-    char *source = (char *) v->data + index * v->baseTypeSize;
-    memcpy(destination, source, v->baseTypeSize);
-
-
-
-    printf("%d", );
-
-    /*for (int i = 0; i < n; i++) {
-        int x;
-        scanf("%d", &x);
-        pushBackVoid(&v, &x);
-    }
-
-    for (int i = 0; i < n; i++) {
-        int x;
-        getVoidVectorValue(&v, i, &x);
-        printf("%d ", x);
-    }*/
-
+    tests();
 
     return 0;
+
 }

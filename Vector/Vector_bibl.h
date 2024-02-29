@@ -68,13 +68,13 @@ void deleteVector(vector *v){
 
 bool isEmpty(vector *v){
 
-    return v->data == NULL ? true : false;
+    return v->data == NULL;
 
 }
 
 bool isFull(vector *v){
 
-    return v->size == v->capacity ? true : false;
+    return v->size == v->capacity;
 
 }
 

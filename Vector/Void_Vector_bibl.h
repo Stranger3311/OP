@@ -110,8 +110,14 @@ void popBackVoid(vectorVoid *v){
 
 void pushBackVoid(vectorVoid *v, void *source){
 
+    if (v->size >= v->capacity){
+        size_t newCapacity = (v->capacity == 0) ? 1: v->capacity * 2;
+        reserveVoid(v,newCapacity);
+    }
+
     char *destination = (char *) v->data + (v->size - 1) * v->baseTypeSize;
     memcpy(destination, source, v->baseTypeSize);
+    (v->size)++;
 }
 
 #endif // VOID_VECTOR_BIBL_H_INCLUDED

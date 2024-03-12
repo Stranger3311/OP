@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <stdbool.h>
+#include <string.h>
 
 void swap(int *a, int *b){
 
@@ -203,10 +204,71 @@ bool isSquareMatrix(matrix *m){
 
 }
 /*
-bool areTwoMatrixEqual(matrix){
+bool areTwoMatrixEqual(matrix *m1, matrix *m2){
 
-    for (int i )
+    if (!(m1->nCols == m2->nCols && m1->nRows == m2->nRows)){
+        return false;
+    }
 
+    for (int i = 0; i < m1->nCols; i++){
+        for (int j = 0; j < m1->nRows; j++){
+            if (m1->values[i][j] != m2->values[i][j]){
+                return false;
+            }
+        }
+    }
+
+    return true;
 }
 */
+
+bool areTwoMatrixEqual(matrix *m1, matrix *m2){
+
+    if (!(m1->nCols == m2->nCols && m1->nRows == m2->nRows)){
+        return false;
+    }
+
+    for (int i = 0; i < m1->nCols; i++){
+            if (memcmp(m1->values[i], m2->values[i], sizeof(int))){
+                return false;
+            }
+
+    }
+
+    return true;
+}
+
+bool isEMMatrix(matrix *m){
+
+    for (int i = 0; i < m->nCols; i++){
+        for (int j = 0; j < m->nRows; j++){
+            if (i == j){
+                if (m->values[i][j] != 1){
+                    return false;
+                }
+            }else{
+                if (m->values[i][j] != 0){
+                    return false;
+                }
+            }
+        }
+    }
+
+    return true;
+}
+
+bool isSymmetricMatrix(matrix *m){
+
+    for (int i = 0; i < m->nCols; i++){
+        for (int j = 0; j < m->nRows; j++){
+            if (m->values[i][j] != m->values[j][i]){
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+
+
 #endif // MATRIX_LIB_H_INCLUDED

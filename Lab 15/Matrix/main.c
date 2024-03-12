@@ -16,9 +16,16 @@ int main(){
 
     //freeMemMatrices(&a,2);
 
-    //matrix a = getMemMatrix(2,2);
+    matrix a = getMemMatrix(3,3);
+    matrix b = getMemMatrix(2,2);
 
-    //inputMatrix(&a);
+    inputMatrix(&a);
+
+    printf("\n");
+
+    //inputMatrix(&b);
+
+    //printf("%d", areTwoMatrixEqual(&a, &b));
 
     //selectionSortColsMatrixByColCriteria(&a,getSum());
 
@@ -27,7 +34,7 @@ int main(){
 
     //outputMatrix(a);
 
-    //printf(" %d", isSquareMatrix(&a));
+    printf("%d", isSymmetricMatrix(&a));
 
     //freeMemMatrix(&a);
 

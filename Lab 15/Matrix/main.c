@@ -16,7 +16,7 @@ int main(){
 
     //freeMemMatrices(&a,2);
 
-    matrix a = getMemMatrix(3,3);
+    matrix a = getMemMatrix(3,2);
     matrix b = getMemMatrix(2,2);
 
     inputMatrix(&a);
@@ -29,12 +29,14 @@ int main(){
 
     //selectionSortColsMatrixByColCriteria(&a,getSum());
 
+    transposeMatrix(&a);
+
     //swapRows(a,0,1);
     //swapColumns(a,0,1);
 
-    //outputMatrix(a);
+    outputMatrix(a);
 
-    printf("%d", isSymmetricMatrix(&a));
+    //printf("%d", isSymmetricMatrix(&a));
 
     //freeMemMatrix(&a);
 

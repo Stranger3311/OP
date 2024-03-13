@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <string.h>
+#include <stdlib.h>
 
 void swap(int *a, int *b){
 
@@ -67,6 +68,8 @@ void freeMemMatrix(matrix *m){
          }
     }
     m->values = NULL;
+    m->nCols = 0;
+    m->nRows = 0;
 }
 
 void freeMemMatrices(matrix *ms, int nMatrices){
@@ -122,7 +125,6 @@ void outputMatrices(matrix *ms, int nMatrices){
     for (int i = 0; i < nMatrices; i++){
         outputMatrix(ms[i]);
     }
-
 }
 
 void swapRows(matrix m, int n1, int n2){
@@ -269,6 +271,44 @@ bool isSymmetricMatrix(matrix *m){
     return true;
 }
 
+void transposeSquareMatrix(matrix *m){
 
+    matrix new_values = getMemMatrix(m->nRows,m->nCols);
+
+    for (int i = 0; i < m->nCols; i++){
+        for (int j = 0; j < m->nRows; j++){
+            new_values.values[i][j] = m->values[j][i];
+        }
+    }
+
+    m->values = NULL;
+    m->values = new_values.values;
+    freeMemMatrix(&new_values);
+}
+
+void transposeMatrix(matrix *m){
+
+    //matrix new_values = getMemMatrix(m->nCols,m->nRows);
+
+    int **new_values = (int **)malloc(m->nCols * sizeof(int *));
+
+    for (int i = 0; i < m->nRows; i++){
+            new_values[i] = (int *)malloc(m->nRows * sizeof(int));
+        for (int j = 0; j < m->nCols; j++){
+            new_values[i][j] = m->values[j][i];
+        }
+    }
+
+    m->values = NULL;
+    m->values = new_values;
+
+    //swap(m->nCols,m->nRows);
+
+    int temp = m->nRows;
+    m->nRows = m->nCols;
+    m->nCols = temp;
+
+    freeMemMatrix(&new_values);
+}
 
 #endif // MATRIX_LIB_H_INCLUDED

@@ -5,6 +5,7 @@
 #include <stdbool.h>
 #include <string.h>
 #include <stdlib.h>
+#include <limits.h>
 
 void swap(int *a, int *b){
 
@@ -78,12 +79,21 @@ void freeMemMatrices(matrix *ms, int nMatrices){
         freeMemMatrix(&ms[q]);
     }
 }
-
+/*
 void inputMatrix(matrix *m){
 
     for (int i = 0; i < m->nCols; i++){
         for (int j = 0; j < m->nRows; j++){
             scanf("%d", &m->values[i][j]);
+        }
+    }
+}
+*/
+void inputMatrix(matrix *m){
+
+    for (int i = 0; i < m->nRows; i++){
+        for (int j = 0; j < m->nCols; j++){
+            scanf("%d", &m->values[j][i]);
         }
     }
 }
@@ -273,22 +283,19 @@ bool isSymmetricMatrix(matrix *m){
 
 void transposeSquareMatrix(matrix *m){
 
-    matrix new_values = getMemMatrix(m->nRows,m->nCols);
+    int **new_values = (int **)malloc(m->nCols * sizeof(int *));
 
-    for (int i = 0; i < m->nCols; i++){
-        for (int j = 0; j < m->nRows; j++){
-            new_values.values[i][j] = m->values[j][i];
+    for (int i = 0; i < m->nRows; i++){
+            new_values[i] = (int *)malloc(m->nRows * sizeof(int));
+        for (int j = 0; j < m->nCols; j++){
+            new_values[i][j] = m->values[j][i];
         }
     }
 
-    m->values = NULL;
-    m->values = new_values.values;
-    freeMemMatrix(&new_values);
+    m->values = new_values;
 }
 
 void transposeMatrix(matrix *m){
-
-    //matrix new_values = getMemMatrix(m->nCols,m->nRows);
 
     int **new_values = (int **)malloc(m->nCols * sizeof(int *));
 
@@ -299,10 +306,7 @@ void transposeMatrix(matrix *m){
         }
     }
 
-    m->values = NULL;
     m->values = new_values;
-
-    //swap(m->nCols,m->nRows);
 
     int temp = m->nRows;
     m->nRows = m->nCols;
@@ -310,5 +314,66 @@ void transposeMatrix(matrix *m){
 
     freeMemMatrix(&new_values);
 }
+
+position getMinValuePos(matrix m){
+
+    int min = INT_MAX;
+    position pos;
+
+    for (int i = 0; i < m.nCols; i++)
+        for ( int j = 0; j < m.nRows; j++){
+            if (m.values[i][j] < min){
+                pos.colIndex = i;
+                pos.rowIndex = j;
+                min = m.values[i][j];
+            }
+    }
+
+    return pos;
+}
+
+position getMaxValuePos(matrix m){
+
+    int max = INT_MIN;
+    position pos;
+
+    for (int i = 0; i < m.nCols; i++)
+        for ( int j = 0; j < m.nRows; j++){
+            if (m.values[i][j] > max){
+                pos.colIndex = i;
+                pos.rowIndex = j;
+                max = m.values[i][j];
+            }
+    }
+
+    return pos;
+}
+
+matrix createMatrixFromArray(const int *a, int nRows, int nCols){
+    matrix m = getMemMatrix(nRows, nCols);
+    int k = 0;
+    for (int i = 0; i < nRows; i++){
+        for (int j = 0; j < nCols; j++){
+            m.values[i][j] = a[k++];
+        }
+    }
+
+    return m;
+}
+
+matrix *createArrayOfMatrixFromArray(const int *values, size_t nMatrices, size_t nRows,size_t nCols) {
+    matrix *ms = getMemArrayOfMatrices(nMatrices, nRows, nCols);
+
+    int l = 0;
+    for (size_t k = 0; k < nMatrices; k++){
+        for (size_t i = 0; i < nRows; i++){
+            for (size_t j = 0; j < nCols; j++){
+                ms[k].values[i][j] = values[l++];
+            }
+        }
+    }
+    return ms;
+}
+
 
 #endif // MATRIX_LIB_H_INCLUDED

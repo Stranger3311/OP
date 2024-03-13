@@ -1,7 +1,21 @@
 #include <stdio.h>
 #include "Matrix_lib.h"
-
-
+/*
+void test_countZeroRows(){
+    matrix m = createMatrixFromArray(
+    (int[]) {
+    1, 1, 0,
+    0, 0, 0,
+    0, 0, 1,
+    0, 0, 0,
+    0, 1, 1,
+    },
+    5, 3
+    );
+    assert(countZeroRows(m, 5, 3) == 2);
+    freeMemMatrix(&m);
+}
+*/
 
 int main(){
 
@@ -16,8 +30,10 @@ int main(){
 
     //freeMemMatrices(&a,2);
 
-    matrix a = getMemMatrix(3,2);
+    matrix a = getMemMatrix(2,2);
     matrix b = getMemMatrix(2,2);
+
+    position pos;
 
     inputMatrix(&a);
 
@@ -26,10 +42,11 @@ int main(){
     //inputMatrix(&b);
 
     //printf("%d", areTwoMatrixEqual(&a, &b));
-
+    pos = getMinValuePos(a);
     //selectionSortColsMatrixByColCriteria(&a,getSum());
 
-    transposeMatrix(&a);
+    //transposeSquareMatrix(&a);
+    //printf("%d %d", pos.colIndex, pos.rowIndex);
 
     //swapRows(a,0,1);
     //swapColumns(a,0,1);
@@ -39,12 +56,6 @@ int main(){
     //printf("%d", isSymmetricMatrix(&a));
 
     //freeMemMatrix(&a);
-
-
-
-
-
-
 
     return 0;
 }

@@ -91,13 +91,22 @@ void inputMatrix(matrix *m){
 */
 void inputMatrix(matrix *m){
 
-    for (int i = 0; i < m->nRows; i++){
-        for (int j = 0; j < m->nCols; j++){
-            scanf("%d", &m->values[j][i]);
+    for (int i = 0; i < m->nCols; i++){
+        for (int j = 0; j < m->nRows; j++){
+            scanf("%d", &m->values[i][j]);
         }
     }
 }
+/*
+void inputMatrixes(matrix *m, int cols, int rows){
 
+    for (int i = 0; i < cols; i++){
+        for (int j = 0; j < rows; j++){
+            scanf("%d", &m->values[i][j]);
+        }
+    }
+}
+*/
 void inputMatrices(matrix *ms, int nMatrices){
 
     for (int i = 0; i < nMatrices; i++){
@@ -137,6 +146,14 @@ void outputMatrices(matrix *ms, int nMatrices){
     }
 }
 
+/*
+void outputMatrices(matrix *ms, int nMatrices){
+
+    for (int i = 0; i < nMatrices; i++){
+        outputMatrix(ms[i]);
+    }
+}
+*/
 void swapRows(matrix m, int n1, int n2){
 
     int temp = m.values[n1];

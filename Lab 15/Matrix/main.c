@@ -2,7 +2,6 @@
 #include <assert.h>
 #include "Matrix_lib.h"
 
-//Тесты функций
 void test_countZeroRows() {
     matrix m = createMatrixFromArray(
             (int[]) {
@@ -23,13 +22,13 @@ int countZeroRows(matrix m){
 
     int res = 0;
 
-    for (int i = 0; i < m.nCols; i++){
+    for (int i = 0; i < m.nRows; i++){
             int zeros_amount = 0;
-            for (int j = 0; j < m.nRows; j++){
+            for (int j = 0; j < m.nCols; j++){
                 if (m.values[i][j] == 0){
                     zeros_amount++;
                 }
-                if(zeros_amount == m.nRows){
+                if(zeros_amount == m.nCols){
                     res++;
                 }
             }
@@ -56,27 +55,26 @@ void test_getMemMatrix() {
 
 void test_getMemArrayOfMatrices() {
     matrix *ms = getMemArrayOfMatrices(2, 2, 2);
-    // проверка на данные о колоннах и столбцах
+
     assert(ms->nCols == 2 && ms->nRows == 2);
-    //проверка выделения памяти
+
     assert(ms != NULL);
     freeMemMatrices(ms, 2);
 
     ms = getMemArrayOfMatrices(9, 5, 2);
-    // проверка на данные о колоннах и столбцах
+
     assert(ms->nCols == 2 && ms->nRows == 5);
-    // проверка выделения памяти
+
     assert(ms != NULL);
     freeMemMatrices(ms, 2);
 }
 
 void test_freeMemMatrix() {
-    // создаем и чистим массив
+
     matrix m = getMemMatrix(2, 2);
     freeMemMatrix(&m);
     assert(m.values == NULL);
 
-    //проверка на других данных
     m = getMemMatrix(3, 6);
     freeMemMatrix(&m);
     assert(m.values == NULL);
@@ -151,13 +149,15 @@ void test_selectionSortColsMatrixByColCriteria() {
 
     matrix m = createMatrixFromArray((int[]) {
     1, 3, 1,
-    1, 3, 1,},
-    2, 3);
+    1, 3, 1,
+    1, 3, 1},
+    3, 3);
 
     matrix exp_res = createMatrixFromArray((int[]) {
     1, 1, 3,
-    1, 1, 3,},
-    2, 3);
+    1, 1, 3,
+    1, 1, 3},
+    3, 3);
 
     selectionSortColsMatrixByColCriteria(&m, getSum);
 
@@ -183,26 +183,29 @@ void test_areTwoMatricesEqual() {
     5, 4,
     3, 2,
     1, 0},
-    2, 3);
+    3, 2);
 
     matrix exp_res = createMatrixFromArray((int[]) {
-    5, 4, 3,
-    2, 1, 0,},
-    2, 3);
+    5, 4,
+    3, 2,
+    1, 0},
+    3, 2);
 
     assert(areTwoMatrixEqual(&m, &exp_res));
     freeMemMatrix(&m);
     freeMemMatrix(&exp_res);
 
     m = createMatrixFromArray((int[]) {
-    1, 3, 1,
-    1, 3, 3,},
-    2, 3);
+    1, 3,
+    1, 1,
+    3, 3,},
+    3, 2);
 
     exp_res = createMatrixFromArray((int[]) {
-    8, 6, 4,
-    2, 3, 3,},
-    2, 3);
+    8, 6,
+    4, 2,
+    3, 3,},
+    3, 2);
 
     assert(!areTwoMatrixEqual(&m, &exp_res));
     freeMemMatrix(&m);
@@ -230,14 +233,14 @@ void test_isSymmetricMatrix() {
     1, 0, 0,
     0, 1, 0,
     0, 0, 1},
-    3,
-    3);
+    3, 3);
     assert(isSymmetricMatrix(&m));
 
     matrix m_1 = createMatrixFromArray((int[]) {
     1, 0, 0,
-    0, 1, 0},
-    2, 3);
+    0, 1, 0,
+    0, 1, 1},
+    3, 3);
     assert(isSymmetricMatrix(&m_1) == 0);
 }
 
@@ -263,12 +266,14 @@ void test_transposeSquareMatrix() {
 void test_transposeMatrix() {
     matrix m = createMatrixFromArray((int[]) {
     1, 2, 3,
-    4, 5, 6,},
-    2, 3);
+    4, 5, 6,
+    7, 8, 9},
+    3, 3);
     matrix exp_res = createMatrixFromArray((int[]) {
-    1, 4,2,
-    5,3, 6,},
-    3, 2);
+    1, 4, 7,
+    2, 5, 8,
+    3, 6, 9},
+    3, 3);
 
     transposeMatrix(&m);
 
@@ -280,12 +285,13 @@ void test_transposeMatrix() {
 void test_getMinValuePos() {
 
     matrix m = createMatrixFromArray((int[]) {
-    -1, 6, 3,
-    18, 7, 0,},
-    2, 3);
+    1, 6,
+    3,18,
+    7, 0},
+    3, 2);
     position p = getMinValuePos(m);
 
-    assert(p.rowIndex == 1 && p.colIndex == 1);
+    assert(p.rowIndex == 2 && p.colIndex == 0);
     freeMemMatrix(&m);
 }
 
@@ -293,11 +299,12 @@ void test_getMaxValuePos() {
 
     matrix m = createMatrixFromArray((int[]) {
     11, 10, 10,
-    4, 15, 12,},
-    2, 3);
+    4, 15, 12,
+    7, 8, 10},
+    3, 3);
     position p1 = getMaxValuePos(m);
 
-    assert(p1.rowIndex == 2 && p1.colIndex == 2);
+    assert(p1.rowIndex == 1 && p1.colIndex == 1);
     freeMemMatrix(&m);
 }
 
@@ -327,70 +334,7 @@ test_transposeMatrix();
 test_getMinValuePos();
 test_getMaxValuePos();
 }
-/*
 
-
-void inOutTestMatrix(){
-
-    matrix m0 = getMemMatrix(2,2);
-    matrix m1 = getMemMatrix(3,2);
-
-    inputMatrix(&m0);
-    printf("\n");
-    inputMatrix(&m1);
-
-    outputMatrix(m0);
-    printf("\n");
-    outputMatrix(m1);
-
-}
-
-void inOutTestMatrices(){
-
-    matrix m0 = *getMemArrayOfMatrices(2,2,2);
-    matrix m1 = *getMemArrayOfMatrices(2,3,2);
-
-    inputMatrices(&m0,2);
-    printf("\n");
-    inputMatrices(&m1,2);
-
-    outputMatrices(&m0,2);
-    printf("\n");
-    outputMatrices(&m1,2);
-
-}
-
-void swapColumnsTest(){
-
-    int a[6] = {1,2,3,4,5,6};
-    int b[4] = {1,2,3,4};
-    matrix m0 = createMatrixFromArray(&a,3,2);
-    matrix m1 = createMatrixFromArray(&b,2,2);
-
-    swapColumns(m0,0,1);
-    swapColumns(m1,0,1);
-
-    outputMatrix(m0);
-    printf("\n");
-    outputMatrix(m1);
-
-}
-/*
-void test_countZeroRows(){
-    matrix m = createMatrixFromArray(
-    (int[]) {
-    1, 1, 0,
-    0, 0, 0,
-    0, 0, 1,
-    0, 0, 0,
-    0, 1, 1,
-    },
-    5, 3
-    );
-    assert(countZeroRows(m, 5, 3) == 2);
-    freeMemMatrix(&m);
-}
-*/
 
 int main(){
 /*
@@ -411,8 +355,8 @@ int main(){
     //position pos;
 
     inputMatrix(&a);
-    swapColumns(&a, 1, 2);
-*/
+    transposeMatrix(&a);
+
  /*   printf("\n");
 
     inputMatrix(&b);

@@ -126,14 +126,6 @@ void outputMatrices(matrix *ms, int nMatrices){
     }
 }
 
-/*
-void outputMatrices(matrix *ms, int nMatrices){
-
-    for (int i = 0; i < nMatrices; i++){
-        outputMatrix(ms[i]);
-    }
-}
-*/
 void swapRows(matrix m, int n1, int n2){
 
     int temp = m.values[n1];
@@ -246,19 +238,7 @@ bool areTwoMatrixEqual(matrix *m1, matrix *m2){
 
     return true;
 }
-/*
-bool areTwoMatrixEqual(matrix *m1, matrix *m2){
 
-    if (!(m1->nCols == m2->nCols && m1->nRows == m2->nRows)){
-        return false;
-    }
-
-    int size = m1->nRows * m1->nCols * sizeof(int);
-
-    return memcmp(&m1,&m2,size) ? true : false;
-
-
-}*/
 bool isEMMatrix(matrix *m){
 
     for (int i = 0; i < m->nCols; i++){

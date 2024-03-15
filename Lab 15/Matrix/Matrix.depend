@@ -1,9 +1,10 @@
 # depslib dependency file v1.0
-1710348223 source:d:\github\op\lab 15\matrix\main.c
+1710428571 source:d:\github\op\lab 15\matrix\main.c
 	<stdio.h>
+	<assert.h>
 	"Matrix_lib.h"
 
-1710348146 d:\github\op\lab 15\matrix\matrix_lib.h
+1710431791 d:\github\op\lab 15\matrix\matrix_lib.h
 	<stdio.h>
 	<stdbool.h>
 	<string.h>

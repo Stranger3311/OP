@@ -9,9 +9,9 @@
 
 void swap(int *a, int *b){
 
-    int *temp = a;
-    a = b;
-    b = temp;
+    int temp = *a;
+    *a = *b;
+    *b = temp;
 
 }
 
@@ -27,7 +27,6 @@ size_t getMaxElementIndexInArray(const int a[], size_t n) {
 
     return maxIndex;
 }
-
 
 typedef struct matrix{
     int **values; // элементы матрицы
@@ -60,11 +59,23 @@ matrix *getMemArrayOfMatrices(int nMatrices, int nRows, int nCols){
 
     return ms;
 }
-
+/*
 void freeMemMatrix(matrix *m){
 
     for (int i = 0; i < m->nCols; i++){
          for (int j = 0; j < m->nRows; j++){
+            m->values[i][j] = NULL;
+         }
+    }
+    m->values = NULL;
+    m->nCols = 0;
+    m->nRows = 0;
+}
+*/
+void freeMemMatrix(matrix *m){
+
+    for (int i = 0; i < m->nRows; i++){
+         for (int j = 0; j < m->nCols; j++){
             m->values[i][j] = NULL;
          }
     }
@@ -79,7 +90,7 @@ void freeMemMatrices(matrix *ms, int nMatrices){
         freeMemMatrix(&ms[q]);
     }
 }
-/*
+
 void inputMatrix(matrix *m){
 
     for (int i = 0; i < m->nCols; i++){
@@ -88,44 +99,13 @@ void inputMatrix(matrix *m){
         }
     }
 }
-*/
-void inputMatrix(matrix *m){
 
-    for (int i = 0; i < m->nCols; i++){
-        for (int j = 0; j < m->nRows; j++){
-            scanf("%d", &m->values[i][j]);
-        }
-    }
-}
-/*
-void inputMatrixes(matrix *m, int cols, int rows){
-
-    for (int i = 0; i < cols; i++){
-        for (int j = 0; j < rows; j++){
-            scanf("%d", &m->values[i][j]);
-        }
-    }
-}
-*/
 void inputMatrices(matrix *ms, int nMatrices){
 
     for (int i = 0; i < nMatrices; i++){
         inputMatrix(&ms[i]);
     }
 }
-
-/*
-void inputMatrices(matrix *ms, int nMatrices){
-
-    for (int i = 0; i <nMatrices; i++){
-        for (int j = 0; j < ms->nCols; j++){
-            for (int q = 0; q < ms->nRows; q++){
-                scanf("%d", &ms[i]->values[j][q]);
-            }
-        }
-    }
-
-}*/
 
 void outputMatrix(matrix m){
 
@@ -161,12 +141,12 @@ void swapRows(matrix m, int n1, int n2){
     m.values[n2] = temp;
 }
 
-void swapColumns(matrix m, int j1, int j2){
+void swapColumns(matrix *m, int j1, int j2){
 
-    for (int i = 0; i < m.nCols; i++){
-        int temp = m.values[i][j1];
-        m.values[i][j1] = m.values[i][j2];
-        m.values[i][j2] = temp;
+    for (int i = 0; i < m->nCols; i++){
+        int *temp = m->values[i][j1];
+        m->values[i][j1] = m->values[i][j2];
+        m->values[i][j2] = temp;
     }
 }
 
@@ -202,27 +182,27 @@ void insertionSortRowsMatrixByCriteria(matrix m, int (*criteria)(int*, int)){
 
 }
 
-void selectionSortColsMatrixByColCriteria(matrix m, int (*criteria)(int*, int)) {
-    int *values = malloc(sizeof(int) * m.nCols);
+void selectionSortColsMatrixByColCriteria(matrix *m, int (*criteria)(int*, int)) {
+    int *values = malloc(sizeof(int) * m->nCols);
 
-    for (size_t i = 0; i < m.nCols; i++) {
-        int *col = malloc( sizeof(int) * m.nRows);
+    for (size_t i = 0; i < m->nCols; i++) {
+        int *col = malloc( sizeof(int) * m->nRows);
 
-    for (size_t j = 0; j < m.nRows; j++)
-        col[j] = m.values[j][i];
+    for (size_t j = 0; j < m->nRows; j++)
+        col[j] = m->values[j][i];
 
-        values[i] = criteria(col, m.nRows);
+        values[i] = criteria(col, m->nRows);
     }
 
-    for (int i = m.nCols - 1; i > 0; --i) {
+    for (int i = m->nCols - 1; i > 0; --i) {
 
         int max = getMaxElementIndexInArray(values, i + 1);
 
         if (max != i) {
         swap(values + max, values + i);
 
-        for (size_t j = 0; j < m.nRows; j++)
-            swap(&m.values[j][max], &m.values[j][i]);
+        for (size_t j = 0; j < m->nRows; j++)
+            swap(&m->values[j][max], &m->values[j][i]);
         }
     }
 }
@@ -258,7 +238,7 @@ bool areTwoMatrixEqual(matrix *m1, matrix *m2){
     }
 
     for (int i = 0; i < m1->nCols; i++){
-            if (memcmp(m1->values[i], m2->values[i], sizeof(int))){
+            if (memcmp(m1->values[i], m2->values[i], m2->nRows * sizeof(int))){
                 return false;
             }
 
@@ -266,7 +246,19 @@ bool areTwoMatrixEqual(matrix *m1, matrix *m2){
 
     return true;
 }
+/*
+bool areTwoMatrixEqual(matrix *m1, matrix *m2){
 
+    if (!(m1->nCols == m2->nCols && m1->nRows == m2->nRows)){
+        return false;
+    }
+
+    int size = m1->nRows * m1->nCols * sizeof(int);
+
+    return memcmp(&m1,&m2,size) ? true : false;
+
+
+}*/
 bool isEMMatrix(matrix *m){
 
     for (int i = 0; i < m->nCols; i++){
@@ -382,13 +374,13 @@ matrix *createArrayOfMatrixFromArray(const int *values, size_t nMatrices, size_t
     matrix *ms = getMemArrayOfMatrices(nMatrices, nRows, nCols);
 
     int l = 0;
-    for (size_t k = 0; k < nMatrices; k++){
-        for (size_t i = 0; i < nRows; i++){
-            for (size_t j = 0; j < nCols; j++){
+    for (size_t k = 0; k < nMatrices; k++)
+        for (size_t i = 0; i < nRows; i++)
+            for (size_t j = 0; j < nCols; j++)
                 ms[k].values[i][j] = values[l++];
-            }
-        }
-    }
+
+
+
     return ms;
 }
 

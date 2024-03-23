@@ -1,9 +1,10 @@
 # depslib dependency file v1.0
-1711120353 source:d:\github\op\lab 16\main.c
+1711205955 source:d:\github\op\lab 16\main.c
 	<stdio.h>
 	<stdlib.h>
 	"Matrix_lib.h"
 	"Multi_arrays.h"
+	<assert.h>
 
 1711119119 d:\github\op\lab 16\matrix_lib.h
 	<stdio.h>
@@ -12,6 +13,6 @@
 	<stdlib.h>
 	<limits.h>
 
-1711122524 d:\github\op\lab 16\multi_arrays.h
+1711206116 d:\github\op\lab 16\multi_arrays.h
 	<limits.h>
 

@@ -56,7 +56,6 @@ void MinMaxRowsSwap(matrix *m){
 
 void sortColsMAxByIncreasing(matrix *m){
 
-    int max = INT_MIN;
     int max_cur;
 
     int arrays_max[m->nCols];
@@ -74,6 +73,29 @@ void sortColsMAxByIncreasing(matrix *m){
                 }
             }
         }
+}
+
+void sortColsByMinElements(matrix *m){
+
+    int arrays_min[m->nRows];
+    int col[m->nCols];
+
+    for (int i = 0; i < m->nRows; i++){
+        for (int q = 0; q < m->nCols; q++){
+            col[q] = m->values[q][i];
+        }
+        arrays_min[i]  = getMin(&col, m->nCols);
+
+    }
+
+    for (int i = 0; i < m->nRows - 1; i++){
+            for (int q = i + 1; q < m->nRows; q++){
+                if (arrays_min[i] > arrays_min[q]){
+                    swap(&arrays_min[i], &arrays_min[q]);
+                    swapColumns(m,i,q);
+                }
+            }
+    }
 }
 
 #endif // MULTI_ARRAYS_H_INCLUDED

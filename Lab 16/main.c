@@ -42,6 +42,25 @@ void sortColsMAxByIncreasingTest(){
      assert(areTwoMatrixEqual(&a, &a_res));
 
 }
+
+void sortColsByMinElementsTest(){
+
+    matrix a = createMatrixFromArray((int[])
+    {3, 5, 2, 4, 3, 3,
+    2, 5, 1, 8, 2, 7,
+    6, 1, 4, 4, 8, 3},
+     6, 3);
+
+     matrix a_res = createMatrixFromArray((int[])
+    {5, 2, 3, 3, 3, 4,
+    5, 1, 2, 2, 7, 8,
+    1, 4, 6, 8, 3, 4},
+     6, 3);
+
+     sortColsByMinElements(&a);
+
+     assert(areTwoMatrixEqual(&a, &a_res));
+}
 /*
 void tests(){
 
@@ -50,15 +69,17 @@ void tests(){
 
 int main(){
 
-    /*matrix a = getMemMatrix(3,3);
+    //3 5 2 4 3 3 2 5 1 8 2 7 6 1 4 4 8 3
+
+    matrix a = getMemMatrix(6,3);
 
     inputMatrix(&a);
 
-    sortColsMAxByIncreasing(&a);
+    sortColsByMinElements(&a);
 
-    outputMatrix(a);*/
+    outputMatrix(a);
 
-    sortColsMAxByIncreasingTest();
+    //sortColsByMinElementsTest();
 
     return 0;
 }

@@ -2,6 +2,7 @@
 #define MULTI_ARRAYS_H_INCLUDED
 
 #include <limits.h>
+#include <stdbool.h>
 
 int getMin(int *row, int n) {
     int min = row[0];
@@ -163,7 +164,20 @@ void transposeIfMatrixHasNotEqualSumOfRows(matrix m){
     if (isUnique(rowSums, m.nCols)){
         transposeSquareMatrix(&m);
     }
+}
 
+bool isMutuallyInverseMatrices(matrix m1, matrix m2){
+
+    matrix m_mul = getMemMatrix(m1.nRows, m1.nCols);
+    m_mul = mulMatrices(m1,m2);
+
+    for (int i = 0; i < m1.nCols; i++){
+        if (m_mul.values[i][i] != 1){
+            return false;
+        }
+    }
+
+    return true;
 }
 
 #endif // MULTI_ARRAYS_H_INCLUDED

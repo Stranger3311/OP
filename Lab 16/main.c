@@ -101,6 +101,22 @@ void transposeIfMatrixHasNotEqualSumOfRowsTest(){
      assert(areTwoMatrixEqual(&a, &a_res));
 
 }
+
+void isMutuallyInverseMatricesTest(){
+
+     matrix a = createMatrixFromArray((int[])
+    {1, 2,
+    3, 5},
+     2, 2);
+
+     matrix a_res = createMatrixFromArray((int[])
+    {-5, 2,
+    3, -1},
+     2, 2);
+
+     assert(isMutuallyInverseMatrices(a,a_res));
+
+}
 /*
 void tests(){
 
@@ -109,17 +125,20 @@ void tests(){
 
 int main(){
 
-transposeIfMatrixHasNotEqualSumOfRowsTest();
 /*
-    matrix a = getMemMatrix(3,3);
+    matrix a = getMemMatrix(2,2);
 
     inputMatrix(&a);
 
-    transposeIfMatrixHasNotEqualSumOfRows(a);
+    matrix b = getMemMatrix(2,2);
+
+    inputMatrix(&b);
+
+    printf("%d",isMutuallyInverseMatrices(a,b));*/
     //sortColsByMinElements(&a);
 
-    outputMatrix(a);*/
+    //outputMatrix(a);
 
-
+isMutuallyInverseMatricesTest();
     return 0;
 }

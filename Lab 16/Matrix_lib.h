@@ -141,7 +141,7 @@ void swapColumns(matrix *m, int j1, int j2){
         m->values[i][j2] = temp;
     }
 }
-
+/*
 int getSum(int *a, int n){
     int sum = 0;
     for (int i = 0; i < n; i++){
@@ -149,7 +149,7 @@ int getSum(int *a, int n){
     }
 
     return sum;
-}
+}*/
 
 void insertionSortRowsMatrixByCriteria(matrix m, int (*criteria)(int*, int)){
 
@@ -297,7 +297,7 @@ bool isSymmetricMatrix(matrix *m){
     }
     return true;
 }
-
+/*
 void transposeSquareMatrix(matrix *m){
 
     int **new_values = (int **)malloc(m->nCols * sizeof(int *));
@@ -310,6 +310,16 @@ void transposeSquareMatrix(matrix *m){
     }
 
     m->values = new_values;
+}*/
+
+void transposeSquareMatrix(matrix *m) {
+    for (int i = 0; i < m->nRows; i++) {
+        for (int j = i + 1; j < m->nCols; j++) {
+            int temp = m->values[i][j];
+            m->values[i][j] = m->values[j][i];
+            m->values[j][i] = temp;
+        }
+    }
 }
 
 void transposeMatrix(matrix *m){

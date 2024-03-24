@@ -130,4 +130,40 @@ void getSquareOfMatrixIfSymmetric(matrix *m){
 
 }
 
+bool isUnique(long long *a, int n){
+
+    for (int i = 0; i < n - 1; i++){
+        for (int j = i + 1; j < n; j++){
+            if (a[i] == a[j]){
+                return false;
+            }
+        }
+    }
+
+    return true;
+}
+
+long long getSum(int *a, int n){
+    long long sum = 0;
+    for (int i = 0; i < n; i++){
+        sum += a[i];
+    }
+
+    return sum;
+}
+
+void transposeIfMatrixHasNotEqualSumOfRows(matrix m){
+
+    long long int rowSums[m.nCols];
+
+    for (int i = 0; i < m.nCols; i++){
+        rowSums[i] = getSum(m.values[i], m.nRows);
+    }
+
+    if (isUnique(rowSums, m.nCols)){
+        transposeSquareMatrix(&m);
+    }
+
+}
+
 #endif // MULTI_ARRAYS_H_INCLUDED

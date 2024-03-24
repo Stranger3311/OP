@@ -81,6 +81,26 @@ void getSquareOfMatrixIfSymmetricTest(){
      assert(areTwoMatrixEqual(&a, &a_res));
 
 }
+
+void transposeIfMatrixHasNotEqualSumOfRowsTest(){
+
+     matrix a = createMatrixFromArray((int[])
+    {18, 17, 12,
+    8, 13, 6,
+    2, 11, 10},
+     3, 3);
+
+     matrix a_res = createMatrixFromArray((int[])
+    {18, 8, 2,
+    17, 13, 11,
+    12, 6, 10},
+     3, 3);
+
+     transposeIfMatrixHasNotEqualSumOfRows(a);
+
+     assert(areTwoMatrixEqual(&a, &a_res));
+
+}
 /*
 void tests(){
 
@@ -89,19 +109,16 @@ void tests(){
 
 int main(){
 
-    //3 5 2 4 3 3 2 5 1 8 2 7 6 1 4 4 8 3
+transposeIfMatrixHasNotEqualSumOfRowsTest();
 /*
     matrix a = getMemMatrix(3,3);
 
     inputMatrix(&a);
 
-    getSquareOfMatrixIfSymmetric(&a);
+    transposeIfMatrixHasNotEqualSumOfRows(a);
     //sortColsByMinElements(&a);
 
     outputMatrix(a);*/
-
-
-    getSquareOfMatrixIfSymmetricTest();
 
 
     return 0;

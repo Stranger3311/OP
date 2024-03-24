@@ -61,6 +61,26 @@ void sortColsByMinElementsTest(){
 
      assert(areTwoMatrixEqual(&a, &a_res));
 }
+
+void getSquareOfMatrixIfSymmetricTest(){
+
+     matrix a = createMatrixFromArray((int[])
+    {1, 4, 2,
+    4, 3, 6,
+    2, 6, 5},
+     3, 3);
+
+     matrix a_res = createMatrixFromArray((int[])
+    {21, 28, 36,
+    28, 61, 56,
+    36, 56, 65},
+     3, 3);
+
+     getSquareOfMatrixIfSymmetric(&a);
+
+     assert(areTwoMatrixEqual(&a, &a_res));
+
+}
 /*
 void tests(){
 
@@ -70,16 +90,19 @@ void tests(){
 int main(){
 
     //3 5 2 4 3 3 2 5 1 8 2 7 6 1 4 4 8 3
-
-    matrix a = getMemMatrix(6,3);
+/*
+    matrix a = getMemMatrix(3,3);
 
     inputMatrix(&a);
 
-    sortColsByMinElements(&a);
+    getSquareOfMatrixIfSymmetric(&a);
+    //sortColsByMinElements(&a);
 
-    outputMatrix(a);
+    outputMatrix(a);*/
 
-    //sortColsByMinElementsTest();
+
+    getSquareOfMatrixIfSymmetricTest();
+
 
     return 0;
 }

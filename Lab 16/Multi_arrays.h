@@ -98,4 +98,36 @@ void sortColsByMinElements(matrix *m){
     }
 }
 
+matrix mulMatrices(matrix m1, matrix m2){
+
+    matrix res = getMemMatrix(m1.nCols, m2.nRows);
+
+    for (int i = 0; i < res.nCols; i++){
+        for (int q = 0; q < res.nRows; q++){
+            res.values[i][q] = 0;
+        }
+    }
+
+    for (int i = 0; i < m1.nCols; i++){
+        for (int q = 0; q < m2.nRows; q++){
+            for (int k = 0; k < m1.nRows; k++){
+                res.values[i][q] += m1.values[i][k] * m2.values[k][q];
+            }
+        }
+    }
+
+    return res;
+
+}
+
+void getSquareOfMatrixIfSymmetric(matrix *m){
+
+    if (isSymmetricMatrix(m)){
+        matrix m_sq = mulMatrices(*m,*m);
+        freeMemMatrix(m);
+        *m = m_sq;
+    }
+
+}
+
 #endif // MULTI_ARRAYS_H_INCLUDED

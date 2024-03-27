@@ -362,14 +362,15 @@ position getMinValuePos(matrix m){
 position getMaxValuePos(matrix m){
 
     int max = INT_MIN;
-    position pos;
+    position pos = {0,0};
 
-    for (int i = 0; i < m.nCols; i++)
-        for ( int j = 0; j < m.nRows; j++){
+    for (int i = 0; i < m.nRows; i++)
+        for (int j = 0; j < m.nCols; j++){
             if (m.values[i][j] > max){
+                max = m.values[i][j];
                 pos.colIndex = i;
                 pos.rowIndex = j;
-                max = m.values[i][j];
+
             }
     }
 

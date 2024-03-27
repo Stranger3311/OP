@@ -117,6 +117,65 @@ void isMutuallyInverseMatricesTest(){
      assert(isMutuallyInverseMatrices(a,a_res));
 
 }
+
+void findSumOfMaxesOfPseudoDiagonalTest(){
+
+     matrix a = createMatrixFromArray((int[])
+    {3, 2, 5, 4,
+    1, 3, 6, 3,
+    3, 2, 1, 2},
+     4, 3);
+
+    int b =findSumOfMaxesOfPseudoDiagonal(a);
+
+     assert(findSumOfMaxesOfPseudoDiagonal(a) == 20);
+
+}
+
+void getMinInAreaTest(){
+
+    matrix m = createMatrixFromArray((int[]){
+        6, 8, 9, 2,
+        7, 12, 3, 4,
+        10, 11, 5, 1}, 3, 4);
+
+    assert(getMinInArea(m) == 6);
+    freeMemMatrix(&m);
+}
+
+void sortByDistancesTest(){
+
+    matrix m = createMatrixFromArray((int[]){
+        10, -25,
+        15, -15,
+        -10, -45},
+        3, 2);
+
+    matrix m_res = createMatrixFromArray((int[]){
+        15, -15,
+        10, -25,
+        -10, -45},
+        3, 2);
+
+    sortByDistances(&m);
+
+    assert(areTwoMatrixEqual(&m, &m_res));
+
+}
+
+void countEqClassesByRowsSumTest(){
+
+    matrix m = createMatrixFromArray((int[]) {7, 1,
+                                              2, 7,
+                                              5, 4,
+                                              4, 3,
+                                              1, 6,
+                                              8, 0},
+                                              6, 2);
+
+    assert(countEqClassesByRowsSum(m) == 3);
+    freeMemMatrix(&m);
+}
 /*
 void tests(){
 
@@ -126,19 +185,20 @@ void tests(){
 int main(){
 
 /*
-    matrix a = getMemMatrix(2,2);
+    matrix a = getMemMatrix(4,3);
 
     inputMatrix(&a);
+    outputMatrix(a);
 
-    matrix b = getMemMatrix(2,2);
+    /*matrix b = getMemMatrix(2,2);
 
     inputMatrix(&b);
 
-    printf("%d",isMutuallyInverseMatrices(a,b));*/
+    printf("%lld",findSumOfMaxesOfPseudoDiagonal(a));*/
     //sortColsByMinElements(&a);
 
     //outputMatrix(a);
 
-isMutuallyInverseMatricesTest();
+    countEqClassesByRowsSumTest();
     return 0;
 }

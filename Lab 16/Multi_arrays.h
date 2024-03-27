@@ -180,4 +180,178 @@ bool isMutuallyInverseMatrices(matrix m1, matrix m2){
     return true;
 }
 
+int max (int a, int b){
+
+    return a > b ? a : b;
+}
+
+long long findSumOfMaxesOfPseudoDiagonal(matrix m){
+
+    long long max_num_sum = 0;
+    int max_number = 0;
+
+    for (int i = 1; i < m.nCols; i++) {
+
+        int cur_row = 0;
+        int cur_col = i;
+
+        max_number = m.values[cur_row][cur_col];
+
+        while (cur_col < m.nCols && cur_row < m.nRows) {
+            max_number = max(max_number, m.values[cur_row][cur_col]);
+            cur_row++;
+            cur_col++;
+        }
+        max_num_sum += max_number;
+    }
+
+    for (int i = 1; i < m.nRows; i++) {
+
+        int cur_row = i;
+        int cur_col = 0;
+
+        max_number = m.values[cur_row][cur_col];
+
+        while (cur_col < m.nRows && cur_row < m.nRows) {
+            max_number = max(max_number, m.values[cur_row][cur_col]);
+            cur_row++;
+            cur_col++;
+        }
+        max_num_sum += max_number;
+    }
+
+    return max_num_sum;
+
+}
+
+int getMinInArea(matrix m){
+
+    position max_pos = getMaxValuePos(m);
+
+    int min = m.values[max_pos.rowIndex][max_pos.colIndex];
+    int row = max_pos.rowIndex - 1;
+    int start_col;
+
+    if(max_pos.colIndex - 1 >= 0){
+        start_col = max_pos.colIndex - 1;
+    }else{
+        start_col = 0;
+    }
+
+    int col = start_col;
+    int col_final;
+
+    if(max_pos.colIndex + 1 <= m.nCols - 1){
+        col_final = max_pos.colIndex + 1;
+    }else{
+        col_final = m.nCols - 1;
+    }
+
+    for (int i = row; i >= 0; i--){
+        for (int j = col; j <= col_final; j++){
+            min = min < m.values[i][j] ? min : m.values[i][j];
+        }
+
+        if(start_col - 1 >= 0){
+            start_col = start_col - 1;
+        }else{
+            start_col = 0;
+        }
+
+        col = start_col;
+
+        if(col_final + 1 <= m.nCols - 1){
+            col_final = col_final + 1;
+        }else{
+            col_final = m.nCols - 1;
+        }
+    }
+
+    return min;
+}
+
+float getDistance(int *a, int n) {
+
+    float distance = 0;
+
+    for (int i = 0; i < n; i++) {
+        distance += a[i] * a[i];
+    }
+
+    distance = sqrt(distance);
+
+    return distance;
+}
+
+void insertionSortRowsMatrixByRowCriteriaF(matrix *m, float (*criteria)(int *, int)){
+
+    float temp[m->nRows];
+
+    for (int i = 0; i < m->nRows; i++){
+
+        temp[i] = criteria(m->values[i], m->nCols);
+    }
+
+    int min_pos;
+
+    for (int j = 0; j < m->nRows; j++){
+
+        min_pos = j;
+
+        for (int i = j + 1; i < m->nRows; i++){
+            if (temp[i] < temp[min_pos]){
+                min_pos = i;
+            }
+        }
+        if (min_pos != j){
+            swap(&temp[j], &temp[min_pos]);
+            swapRows(*m, j, min_pos);
+        }
+    }
+}
+
+void sortByDistances(matrix *m){
+    insertionSortRowsMatrixByRowCriteriaF(m, getDistance);
+}
+
+int cmp_long_long(const void *pa, const void *pb){
+
+    if (*(long long int *) pa - *(long long int *) pb < 0)
+        return -1;
+    if (*(long long int *) pa - *(long long int *) pb > 0)
+        return 1;
+    return 0;
+}
+
+int countNUnique(long long *a, int n) {
+
+    int amount = 0;
+    int is_unique = 0;
+
+    for (int i = 0; i < n - 1; i++){
+
+        if (!is_unique && a[i] == a[i + 1]){
+            amount += 1;
+            is_unique = 1;
+
+        }else{
+            is_unique = 0;
+        }
+    }
+    return amount;
+}
+
+int countEqClassesByRowsSum(matrix m) {
+
+    long long sums[m.nRows];
+
+    for (int i = 0; i < m.nRows; i++){
+        sums[i] = getSum(m.values[i], m.nCols);
+    }
+
+    qsort(sums, m.nRows, sizeof(long long int), cmp_long_long);
+
+    return countNUnique(sums, m.nRows);
+}
+
 #endif // MULTI_ARRAYS_H_INCLUDED

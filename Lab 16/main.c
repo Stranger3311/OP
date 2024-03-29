@@ -176,29 +176,138 @@ void countEqClassesByRowsSumTest(){
     assert(countEqClassesByRowsSum(m) == 3);
     freeMemMatrix(&m);
 }
-/*
+
+void getNSpecialElementTest(){
+
+    matrix m = createMatrixFromArray((int[]) {
+        3, 5, 5, 4,
+        2, 3, 6, 7,
+        12, 2, 1, 2},
+        3, 4);
+
+    assert(getNSpecialElement(m) == 2);
+}
+
+void swapPenultimateRowTest(){
+
+     matrix m = createMatrixFromArray((int[]){
+        1, 2, 3,
+        4, 5, 6,
+        7, 8, 1},
+        3, 3);
+
+    swapPenultimateRow(&m, getLeftMin(m).colIndex);
+
+    matrix m_test = createMatrixFromArray((int[]){
+        1, 2, 3,
+        1, 4, 7,
+        7, 8, 1},
+        3, 3);
+
+    assert(areTwoMatrixEqual(&m, &m_test));
+
+}
+
+void countNonDescendingRowsMatricesTest(){
+
+    matrix *ms = createArrayOfMatrixFromArray((int[]){
+
+        7, 1,
+        1, 1,
+
+        1, 6,
+        2, 2,
+
+        5, 4,
+        2, 3,
+
+        1, 3,
+        7, 9},
+        4, 2, 2);
+
+    assert(countNonDescendingRowsMatrices(&ms, 4) == 2);
+
+
+}
+
+void printMatrixWithMaxZeroRowsTest(){
+
+    matrix *ms = createArrayOfMatrixFromArray((int[]){
+        0, 1,
+        1, 0,
+        0, 0,
+
+        1, 1,
+        2, 1,
+        1, 1,
+
+        0, 0,
+        0, 0,
+        4, 7,
+
+        0, 0,
+        0, 1,
+        0, 0,
+
+        0, 1,
+        0, 2,
+        0, 3},
+        5, 3, 2);
+
+    assert(countZeroRows(ms[0]) == 1);
+    assert(countZeroRows(ms[1]) == 0);
+    assert(countZeroRows(ms[2]) == 2);
+    assert(countZeroRows(ms[3]) == 2);
+    assert(countZeroRows(ms[4]) == 0);
+
+}
+
+void lowestNormTest(){
+
+    matrix *ms = createArrayOfMatrixFromArray((int[]){
+
+        13, -15,
+        25, 18,
+
+        3, -30,
+        -78, 32,
+
+        1, 2,
+        6, 18,
+
+        1, -7,
+        8, 29},
+        4, 2, 2);
+
+    lowestNorm(ms, 4);
+
+}
+
 void tests(){
 
+    MinMaxRowsSwapTest();
+    sortColsMAxByIncreasingTest();
+    sortColsByMinElementsTest();
+    getSquareOfMatrixIfSymmetricTest();
+    transposeIfMatrixHasNotEqualSumOfRowsTest();
+    getMinInAreaTest();
+    isMutuallyInverseMatricesTest();
+    findSumOfMaxesOfPseudoDiagonalTest();
+    sortByDistancesTest();
+    countEqClassesByRowsSumTest();
+    getNSpecialElementTest();
+    swapPenultimateRowTest();
+    countNonDescendingRowsMatricesTest();
+    printMatrixWithMaxZeroRowsTest();
+    lowestNormTest();
 
-}*/
+
+
+}
 
 int main(){
 
-/*
-    matrix a = getMemMatrix(4,3);
+    tests();
 
-    inputMatrix(&a);
-    outputMatrix(a);
-
-    /*matrix b = getMemMatrix(2,2);
-
-    inputMatrix(&b);
-
-    printf("%lld",findSumOfMaxesOfPseudoDiagonal(a));*/
-    //sortColsByMinElements(&a);
-
-    //outputMatrix(a);
-
-    countEqClassesByRowsSumTest();
     return 0;
 }

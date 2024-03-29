@@ -354,4 +354,156 @@ int countEqClassesByRowsSum(matrix m) {
     return countNUnique(sums, m.nRows);
 }
 
+int getNSpecialElement(matrix m){
+
+    int sum;
+    int max;
+    int amount = 0;
+
+    for (int i = 0; i < m.nCols; i++){
+        max = m.values[0][i];
+        sum = max;
+
+        for (int j = 1; j < m.nRows; j++){
+
+            if(max < m.values[j][i]){
+                max = m.values[j][i];
+            }
+
+            sum += m.values[j][i];
+        }
+
+        sum -= max;
+
+        if(sum < max){
+            amount += 1;
+        }
+    }
+
+    return amount;
+}
+
+position getLeftMin(matrix m){
+    return getMinValuePos(m);
+}
+
+void swapPenultimateRow(matrix *m, int n){
+
+    for (int i = m->nRows - 1; i >= 0; i--){
+        m->values[m->nRows - 2][i] = m->values[i][n];
+    }
+}
+
+bool isNonDescendingSorted(int *a, int n){
+
+    for (int i = 0; i < n - 1; i++){
+        if (a[i] > a[i + 1]){
+            return false;
+        }
+    }
+
+    return true;
+}
+
+bool hasAllNonDescendingRows(matrix m){
+
+    for (int i = 0; i < m.nRows; i++){
+        if (!isNonDescendingSorted(m.values[i], m.nCols)){
+            return false;
+        }
+    }
+
+    return true;
+}
+
+int countNonDescendingRowsMatrices(matrix *ms, int nMatrix){
+
+    int amount = 0;
+
+    for (int i = 0; i < nMatrix; i++){
+        if (hasAllNonDescendingRows(ms[i])){
+            amount++;
+        }
+    }
+
+    return amount;
+}
+
+int countValues(const int *a, int n, int value) {
+
+    int amount = 0;
+    for (size_t i = 0; i < n; i++){
+        if (a[i] == value){
+            amount++;
+        }
+    }
+
+    return amount;
+}
+
+int countZeroRows(matrix m) {
+
+    int result = 0;
+    for (size_t i = 0; i < m.nRows; i++){
+        int amount = countValues(m.values[i], m.nCols, 0);
+        if (amount == m.nCols){
+            result++;
+        }
+    }
+
+    return result;
+}
+
+void printMatrixWithMaxZeroRows(matrix *ms, int nMatrix){
+
+    int arr_count[nMatrix];
+    int max;
+    int amount;
+
+    for (int i = 0; i < nMatrix; i++){
+        amount = countZeroRows(ms[i]);
+        if (max < amount){
+            max = amount;
+        }
+        arr_count[i] = amount;
+    }
+    for (int i = 0; i < nMatrix; ++i){
+        if (arr_count[i] == max){
+            outputMatrix(ms[i]);
+        }
+    }
+}
+
+void lowestNorm(matrix *ms, int nMatrix) {
+
+    int temp[nMatrix];
+    int abs;
+    int max = 0;
+
+    for (int i = 0; i < nMatrix; i++){
+        for (int j = 0; j < ms->nRows; j++){
+            for (int k = 0; k < ms->nCols; k++){
+
+                abs = ms[i].values[j][k] > 0 ? ms[i].values[j][k] : -1 * ms[i].values[j][k];
+                max = max < abs ? abs : max;
+            }
+        }
+
+        temp[i] = max;
+        max = 0;
+    }
+
+    int min = temp[0];
+
+    for (int i = 1; i < nMatrix; i++){
+        min = min > temp[i] ? temp[i] : min;
+    }
+
+    for (int i = 0; i < nMatrix; i++){
+        if (temp[i] == min){
+            outputMatrix(ms[i]);
+        }
+    }
+}
+
 #endif // MULTI_ARRAYS_H_INCLUDED

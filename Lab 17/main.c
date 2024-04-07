@@ -14,8 +14,20 @@ void testFind(){
     assert(*found == 'e');
 }
 
+void testFindNonSpace(){
+    char str[] = "findNonSpace test";
+    char *nonSpace = findNonSpace(str);
+    assert(*nonSpace == 'f');
+}
+
+void testFindSpace(){
+    char str[] = "findSpace test";
+    char *nonSpace = findSpace(str);
+    assert(*nonSpace == ' ');
+}
+
 int main(){
 
-    testFind();
+    testFindSpace();
     return 0;
 }

@@ -21,5 +21,20 @@ char* find(char *begin, char *end, int ch){
     return begin;
 }
 
+char* findNonSpace(char *begin){
+
+    while (*begin != '\0' && isspace(*begin)){
+        begin++;
+    }
+    return begin;
+}
+
+char* findSpace(char* begin){
+
+    while(*begin != '\0' && !isspace(*begin)){
+        begin++;
+    }
+    return begin;
+}
 
 #endif // STRING_LIB_H_INCLUDED

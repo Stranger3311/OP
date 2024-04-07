@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1711733564 source:d:\github\op\lab 16\main.c
+1711787964 source:d:\github\op\lab 16\main.c
 	<stdio.h>
 	<stdlib.h>
 	"Matrix_lib.h"

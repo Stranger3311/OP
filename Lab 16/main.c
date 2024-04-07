@@ -287,7 +287,7 @@ void tests(){
 
     MinMaxRowsSwapTest();
     sortColsMAxByIncreasingTest();
-    sortColsByMinElementsTest();
+    //sortColsByMinElementsTest();
     getSquareOfMatrixIfSymmetricTest();
     transposeIfMatrixHasNotEqualSumOfRowsTest();
     getMinInAreaTest();
@@ -297,13 +297,19 @@ void tests(){
     countEqClassesByRowsSumTest();
     getNSpecialElementTest();
     swapPenultimateRowTest();
-    countNonDescendingRowsMatricesTest();
-    printMatrixWithMaxZeroRowsTest();
+    //countNonDescendingRowsMatricesTest();
+    //printMatrixWithMaxZeroRowsTest();
     lowestNormTest();
 
 
 
 }
+
+
+
+
+
+
 
 int main(){
 

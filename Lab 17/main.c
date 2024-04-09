@@ -26,6 +26,15 @@ void testFindSpace(){
     assert(*nonSpace == ' ');
 }
 
+void testFindNonSpaceReverse(){
+
+    char str[] = "findNonSpaceReverse test";
+    char *rend = str - 1;
+    char *rbegin = findNonSpaceReverse(str + 24, rend);
+    assert(*rbegin == 'e');
+
+}
+
 int main(){
 
     testFindSpace();

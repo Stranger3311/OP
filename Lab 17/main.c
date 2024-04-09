@@ -41,11 +41,24 @@ void testFindSpaceReverse(){
     char *rend = str - 1;
     char *rbegin = findSpaceReverse(str + 20,rend);
     assert(*rbegin == ' ');
+    char str1[] = "findSpaceReversetest";
+    char *rend1 = str1 - 1;
+    char *rbegin1 = findSpaceReverse(str1 + 19,rend1);
+    assert(*rbegin1 == '\0');
+}
+
+void testStrcmp(){
+
+    const char str1[] = "test strcmp";
+    const char str2[] = "testStrcmp";
+    assert(strcmp(str1,str2) < 0);
+
+    const char str3[] = "test strcmp";
+    assert(strcmp(str1,str3) == 0);
 }
 
 int main(){
 
-    testFindSpaceReverse();
-    testFindNonSpaceReverse();
+    testStrcmp();
     return 0;
 }

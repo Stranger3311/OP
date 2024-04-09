@@ -28,11 +28,19 @@ void testFindSpace(){
 
 void testFindNonSpaceReverse(){
 
-    char str[] = "findNonSpaceReverse test";
+    char str[] = "findNonSpaceReverse test  ";
     char *rend = str - 1;
     char *rbegin = findNonSpaceReverse(str + 23, rend);
     assert(*rbegin == 't');
 
+}
+
+void testFindSpaceReverse(){
+
+    char str[] = "findSpaceReverse test";
+    char *rend = str - 1;
+    char *rbegin = findSpaceReverse(str + 20,rend);
+    assert(*rbegin == ' ');
 }
 
 int main(){

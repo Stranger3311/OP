@@ -45,4 +45,6 @@ char* findNonSpaceReverse(char *rbegin, const char *rend){
     return rbegin;
 }
 
+
+
 #endif // STRING_LIB_H_INCLUDED

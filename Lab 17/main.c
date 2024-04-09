@@ -45,6 +45,7 @@ void testFindSpaceReverse(){
 
 int main(){
 
+    testFindSpaceReverse();
     testFindNonSpaceReverse();
     return 0;
 }

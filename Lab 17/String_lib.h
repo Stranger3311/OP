@@ -39,12 +39,18 @@ char* findSpace(char* begin){
 
 char* findNonSpaceReverse(char *rbegin, const char *rend){
 
-    while (*rbegin != rend && isspace(*rbegin - 1)){
+    while (rbegin >= rend && isspace(*rbegin )){
         rbegin--;
     }
     return rbegin;
 }
 
+char* findSpaceReverse(char *rbegin, const char *rend){
 
+    while(rbegin >= rend && !isspace(*(rbegin))){
+        rbegin--;
+    }
+    return rbegin;
+}
 
 #endif // STRING_LIB_H_INCLUDED

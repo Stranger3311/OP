@@ -57,8 +57,26 @@ void testStrcmp(){
     assert(strcmp(str1,str3) == 0);
 }
 
+void testCopy(){
+
+    const char str[] = "testCopy";
+    const char str1[] = "test copy";
+
+    char str_[8];
+    char str__[8];
+
+    copy(str, str + 8,(char*) str_);
+
+    assert(*(str + 7) == *(str_ + 7) && *(str + 6) == *(str_ + 6) && *(str + 5) == *(str_ + 5) && *(str + 0) == *(str_ + 0));
+
+    copy(str1, str1 + 9,(char*) str__);
+
+    assert(*(str1 + 7) == *(str__ + 7) && *(str1 + 6) == *(str__ + 6) && *(str1 + 5) == *(str__ + 5) && *(str1 + 0) == *(str__ + 0));
+
+}
+
 int main(){
 
-    testStrcmp();
+    testCopy();
     return 0;
 }

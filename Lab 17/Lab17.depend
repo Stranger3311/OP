@@ -1,0 +1,19 @@
+# depslib dependency file v1.0
+1712769287 source:d:\github\op\lab 17\main.c
+	<stdio.h>
+	<assert.h>
+	"String_lib.h"
+
+1712769167 d:\github\op\lab 17\string_lib.h
+	<stdio.h>
+	<ctype.h>
+
+1712769287 source:d:\github\op\lab17\main.c
+	<stdio.h>
+	<assert.h>
+	"String_lib.h"
+
+1712769167 d:\github\op\lab17\string_lib.h
+	<stdio.h>
+	<ctype.h>
+

@@ -64,14 +64,26 @@ int strcmp(const char *lhs, const char *rhs){
 
 char* copy(const char *beginSource, const char *endSource, char *beginDestination){
 
-    while (beginSource != endSource) {
+    while (beginSource != endSource){
         *beginDestination = *beginSource;
         beginSource++;
         beginDestination++;
     }
+    
     return beginDestination;
 }
 
+char* copyIf(char *beginSource, const char *endSource, char *beginDestination, int (*f)(int)){
 
+    while (beginSource != endSource){
+        if (f(*beginSource)){
+            *beginDestination = *beginSource;
+            beginDestination++;
+        }
+        beginSource++;
+    }
+
+    return beginDestination;
+}
 
 #endif // STRING_LIB_H_INCLUDED

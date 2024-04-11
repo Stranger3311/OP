@@ -99,8 +99,8 @@ void testCopyIfReverse(){
     const char str[] = "testCopy1If";
     const char str1[] = "1test2 3copy4";
 
-    char str_[11];
-    char str__[13];
+    char str_[1];
+    char str__[4];
 
     copyIfReverse(str + 11, str, (char*) str_, isNumber);
     assert(*(str_ + 0) == '1');
@@ -109,9 +109,21 @@ void testCopyIfReverse(){
     assert(*(str__ + 0) == '4' && *(str__ + 1) == '3' && *(str__ + 2) == '2' &&  *(str__ + 3) == '1');
 }
 
+void tests(){
+    testStrlen();
+    testFind();
+    testFindNonSpace();
+    testFindSpace();
+    testFindSpaceReverse();
+    testFindNonSpaceReverse();
+    testStrcmp();
+    testCopy();
+    testCopyIf();
+    testCopyIfReverse();
+}
 
 int main(){
 
-    testCopyIfReverse();
+    tests();
     return 0;
 }

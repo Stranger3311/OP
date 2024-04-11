@@ -3,9 +3,9 @@
 #include "String_lib.h"
 
 void testStrlen(){
-    const char *str = "stren test";
+    const char *str = "strlen test";
     int size = strlen_(str);
-    assert(size == 10);
+    assert(size == 11);
 }
 
 void testFind(){

@@ -72,4 +72,6 @@ char* copy(const char *beginSource, const char *endSource, char *beginDestinatio
     return beginDestination;
 }
 
+
+
 #endif // STRING_LIB_H_INCLUDED

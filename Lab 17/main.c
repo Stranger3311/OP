@@ -75,8 +75,27 @@ void testCopy(){
 
 }
 
+int isNumber(int a){
+    return a <= '9' && a >= '0';
+}
+
+void testCopyIf(){
+
+    const char str[] = "testCopy1If";
+    const char str1[] = "1test2 3copy4";
+
+    char str_[11];
+    char str__[13];
+
+    copyIf(str, str + 11, (char*) str_, isNumber);
+    assert(*(str_ + 0) == '1');
+
+    copyIf(str1, str + 13, (char*) str__, isNumber);
+    assert(*(str__ + 0) == '1' && *(str__ + 1) == '2' && *(str__ + 2) == '3' &&  *(str__ + 3) == '4');
+}
+
 int main(){
 
-    testCopy();
+    testCopyIf();
     return 0;
 }

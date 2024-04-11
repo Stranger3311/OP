@@ -94,8 +94,24 @@ void testCopyIf(){
     assert(*(str__ + 0) == '1' && *(str__ + 1) == '2' && *(str__ + 2) == '3' &&  *(str__ + 3) == '4');
 }
 
+void testCopyIfReverse(){
+
+    const char str[] = "testCopy1If";
+    const char str1[] = "1test2 3copy4";
+
+    char str_[11];
+    char str__[13];
+
+    copyIfReverse(str + 11, str, (char*) str_, isNumber);
+    assert(*(str_ + 0) == '1');
+
+    copyIfReverse(str1 + 13, str1, (char*) str__, isNumber);
+    assert(*(str__ + 0) == '4' && *(str__ + 1) == '3' && *(str__ + 2) == '2' &&  *(str__ + 3) == '1');
+}
+
+
 int main(){
 
-    testCopyIf();
+    testCopyIfReverse();
     return 0;
 }

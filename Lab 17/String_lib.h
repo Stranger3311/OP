@@ -69,7 +69,7 @@ char* copy(const char *beginSource, const char *endSource, char *beginDestinatio
         beginSource++;
         beginDestination++;
     }
-    
+
     return beginDestination;
 }
 
@@ -85,5 +85,7 @@ char* copyIf(char *beginSource, const char *endSource, char *beginDestination, i
 
     return beginDestination;
 }
+
+
 
 #endif // STRING_LIB_H_INCLUDED

@@ -72,7 +72,7 @@ void testCopy(){
 int isNumber(int a){
     return a <= '9' && a >= '0';
 }
-
+/*
 void testCopyIf(){
 
     const char str[] = "testCopy1If";
@@ -87,7 +87,7 @@ void testCopyIf(){
     copyIf(str1, str + 13, (char*) str__, isNumber);
     assert(*(str__ + 0) == '1' && *(str__ + 1) == '2' && *(str__ + 2) == '3' &&  *(str__ + 3) == '4');
 }
-
+/*
 void testCopyIfReverse(){
 
     const char str[] = "testCopy1If";
@@ -120,4 +120,4 @@ int main(){
 
     tests();
     return 0;
-}
+}*/

@@ -2,6 +2,7 @@
 #define STRING_LIB_H_INCLUDED
 
 #include <stdio.h>
+#include <string.h>
 #include <ctype.h>
 
 size_t strlen_(const char* begin){
@@ -64,13 +65,13 @@ int strcmp(const char *lhs, const char *rhs){
 
 char* copy(const char *beginSource, const char *endSource, char *beginDestination){
 
-    while (beginSource != endSource){
-        *beginDestination = *beginSource;
-        beginSource++;
-        beginDestination++;
-    }
+    size_t size = endSource - beginSource;
 
-    return beginDestination;
+    memcpy(beginDestination, beginSource, size);
+
+    *(beginDestination + size) = '\0';
+
+    return beginDestination + size;
 }
 
 char* copyIf(char *beginSource, const char *endSource, char *beginDestination, int (*f)(int)){

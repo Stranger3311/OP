@@ -4,6 +4,8 @@
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
+#include <stdbool.h>
+#include <assert.h>
 
 size_t strlen_(const char* begin){
 
@@ -99,5 +101,25 @@ char* copyIfReverse(char *rbeginSource, const char *rendSource, char *beginDesti
 
     return beginDestination;
 }
+
+#define MAX_STRING_SIZE 100
+#define MAX_N_WORDS_IN_STRING 100
+#define MAX_WORD_SIZE 20
+#define English_Alphabet 26
+
+typedef struct WordDescriptor {
+    char *begin; // позиция начала слова
+    char *end; // позиция первого символа, после последнего символа слова
+} WordDescriptor;
+
+typedef struct BagOfWords {
+    WordDescriptor words[MAX_N_WORDS_IN_STRING];
+    size_t size;
+} BagOfWords;
+
+BagOfWords _bag;
+BagOfWords _bag2;
+
+char _stringBuffer[MAX_STRING_SIZE + 1];
 
 #endif // STRING_LIB_H_INCLUDED

@@ -94,40 +94,23 @@ void removeExtraSpaces(char *s){
 
 void test_removeExtraSpaces(){
     char str[] = "90   88   67";
-    char exp[] = "90 88 67";
+    char res[] = "90 88 67";
     removeExtraSpaces(str);
 
-    ASSERT_STRING(exp, str);
+    ASSERT_STRING(res, str);
 
     char str1[] = "      ";
-    char exp1[] = "";
+    char res1[] = "";
     removeExtraSpaces(str1);
 
-    ASSERT_STRING(exp1, str1);
+    ASSERT_STRING(res1, str1);
 
     char str2[] = "ID DQ D";
-    char exp2[] = "ID DQ D";
+    char res2[] = "ID DQ D";
     removeExtraSpaces(str2);
 
-    ASSERT_STRING(exp2, str2);
+    ASSERT_STRING(res2, str2);
 }
-
-#define MAX_STRING_SIZE 100
-#define MAX_N_WORDS_IN_STRING 100
-#define MAX_WORD_SIZE 20
-#define English_Alphabet 26
-
-typedef struct WordDescriptor {
-    char *begin; // позиция начала слова
-    char *end; // позиция первого символа, после последнего символа слова
-} WordDescriptor;
-
-typedef struct BagOfWords {
-    WordDescriptor words[MAX_N_WORDS_IN_STRING];
-    size_t size;
-} BagOfWords;
-
-char _stringBuffer[MAX_STRING_SIZE + 1];
 
 int getWord(char *beginSearch, WordDescriptor *word) {
     word->begin = findNonSpace(beginSearch);
@@ -211,10 +194,10 @@ void test_digitsToSpaces() {
     ASSERT_STRING(res, str);
 
     char str1[MAX_STRING_SIZE] = "9Z8X6C";
-    char exp1[] = "         Z        X      C";
+    char res1[] = "         Z        X      C";
     digitsToSpaces(str1);
 
-    ASSERT_STRING(exp1, str1);
+    ASSERT_STRING(res1, str1);
 
     char str2[MAX_STRING_SIZE] = "908867";
     char res2[] = "                                      ";
@@ -264,30 +247,207 @@ void replace(char *source, char *w1, char *w2) {
     *recPtr = '\0';
 }
 
-void test_replace() {
+void test_replace(){
     char str[MAX_STRING_SIZE] = "eee";
     char w1[] = "eee";
     char w2[] = "sun strike";
     replace(str, w1, w2);
-    char exp[MAX_STRING_SIZE] = "sun strike";
+    char res[MAX_STRING_SIZE] = "sun strike";
 
-    ASSERT_STRING(exp, str);
+    ASSERT_STRING(res, str);
 
     char str1[MAX_STRING_SIZE] = "OP Labwork 18";
     char w1_1[] = "Labwork";
     char w2_1[] = "Lab";
     replace(str1, w1_1, w2_1);
-    char exp1[MAX_STRING_SIZE] = "OP Lab 18";
+    char res1[MAX_STRING_SIZE] = "OP Lab 18";
 
-    ASSERT_STRING(exp1, str1);
+    ASSERT_STRING(res1, str1);
 
     char str3[MAX_STRING_SIZE] = "EEE";
     char w1_3[] = "EEE";
     char w2_3[] = "eee";
     replace(str3, w1_3, w2_3);
-    char exp3[MAX_STRING_SIZE] = "eee";
+    char res3[MAX_STRING_SIZE] = "eee";
 
-    ASSERT_STRING(exp3, str3);
+    ASSERT_STRING(res3, str3);
+}
+
+bool areWordsEqual(WordDescriptor w1, WordDescriptor w2){
+
+    char *ptr1 = w1.begin;
+    char *ptr2 = w2.begin;
+
+    while (ptr1 <= w1.end && ptr2 <= w2.end) {
+        if (*ptr1 != *ptr2){
+            return 0;
+        }
+
+        ptr1++;
+        ptr2++;
+    }
+
+    return ptr1 > w1.end && ptr2 > w2.end;
+
+}
+
+bool areWordsOrdered(char *s){
+
+    WordDescriptor word1;
+    WordDescriptor word2;
+
+    if (getWord(s, &word1)){
+        word2 = word1;
+        while (getWord(s, &word1)){
+            if (!areWordsEqual(word1, word2)){
+                return false;
+            }
+            word2 = word1;
+            s = word1.end;
+        }
+
+        return true;
+
+    }else{
+        return true;
+    }
+}
+
+void test_areWordsOrdered(){
+    char s[] = "abc";
+    assert(areWordsOrdered(s) == true);
+
+    char s2[] = "b a c";
+    assert(areWordsOrdered(s2) == false);
+
+    char s3[] = "a";
+    assert(areWordsOrdered(s3) == true);
+
+    char s4[] = " ";
+    assert(areWordsOrdered(s4) == true);
+
+}
+
+void getBagOfWords(BagOfWords *bag, char *s){
+
+    WordDescriptor word;
+    bag->size = 0;
+
+    while (getWord(s, &word)){
+        bag->words[bag->size] = word;
+        bag->size++;
+        s = word.end;
+    }
+}
+
+char *Copy_Reverse(char *rbeginSource, const char *rendSource, char *beginDestination){
+    while (rbeginSource != rendSource)
+        (*beginDestination++) = *rbeginSource--;
+
+    return beginDestination;
+}
+
+void reverseWordsBag(char *s){
+
+    *copy(s, getEndOfString(s), _stringBuffer) = '\0';
+
+    getBagOfWords(&_bag, _stringBuffer);
+
+    char *copy_str = s;
+
+    for (int i = 0; i < _bag.size; i++){
+        copy_str = Copy_Reverse(_bag.words[i].end - 1, _bag.words[i].begin - 1, copy_str);
+        *copy_str++ = ' ';
+    }
+    if (copy_str != s){
+        copy_str--;
+    }
+
+    *copy_str = '\0';
+}
+
+void test_reverseWordsBag(){
+
+    char s[MAX_STRING_SIZE] = "qwerty";
+    reverseWordsBag(s);
+
+    ASSERT_STRING("ytrewq", s);
+
+    char s2[MAX_STRING_SIZE] = "ABC";
+    reverseWordsBag(s2);
+
+    ASSERT_STRING("CBA", s2);
+
+}
+
+
+int isWordPalindrome(char *begin, char *end){
+
+    while (begin < end){
+
+        if (!isalpha(*begin)){
+            begin++;
+        }else if (!isalpha(*end)){
+            end--;
+        }else{
+
+            if (tolower(*begin) != tolower(*end)) {
+                return 0;
+            }
+            begin++;
+            end--;
+        }
+    }
+
+    return 1;
+}
+
+size_t WordsPalindromesAmount(char *s){
+
+    char *end_str = getEndOfString(s);
+    char *beginSearch = findNonSpace(s);
+
+    int countPalindromes = 0;
+
+    char *position_first_comma = find(beginSearch, end_str, ',');
+    int last_comma = *position_first_comma == '\0' && end_str - beginSearch != 0;
+
+    while (*position_first_comma != '\0' || last_comma){
+
+        beginSearch = findNonSpace(beginSearch);
+        countPalindromes += isWordPalindrome(beginSearch, position_first_comma);
+
+        beginSearch = position_first_comma + 1;
+        if (last_comma){
+            break;
+        }
+
+        position_first_comma = find(beginSearch, end_str, ',');
+        last_comma = *position_first_comma == '\0';
+    }
+
+    return countPalindromes;
+}
+
+void test_WordsPalindromesAmount(){
+    char s[] = "";
+    assert(WordsPalindromesAmount(s) == 0);
+
+    char s1[] = "fbgjkfjffsejjsfkek";
+    assert(WordsPalindromesAmount(s1) == 0);
+
+    char s2[] = "o";
+    assert(WordsPalindromesAmount(s2) == 1);
+
+    char s3[] = "IDDI";
+    assert(WordsPalindromesAmount(s3) == 1);
+
+    char s4[] = "eve, qrttrq";
+    assert(WordsPalindromesAmount(s4) == 2);
+
+    char s5[] = "IDDI, zvqrt";
+    assert(WordsPalindromesAmount(s5) == 1);
+
 }
 
 void tests(){
@@ -295,8 +455,13 @@ void tests(){
     test_removeExtraSpaces();
     test_digitsToStart();
     test_digitsToSpaces();
+    test_replace();
+    test_areWordsOrdered();
+    test_reverseWordsBag();
+    test_WordsPalindromesAmount();
 }
 
+
 int main(){
-    test_digitsToSpaces();
+    test_WordsPalindromesAmount();
 }

@@ -112,7 +112,7 @@ void test_removeExtraSpaces(){
     ASSERT_STRING(res2, str2);
 }
 
-int getWord(char *beginSearch, WordDescriptor *word) {
+int getWord(char *beginSearch, WordDescriptor *word){
     word->begin = findNonSpace(beginSearch);
     if (*word->begin == '\0')
         return 0;
@@ -450,6 +450,193 @@ void test_WordsPalindromesAmount(){
 
 }
 
+typedef enum WordBeforeFirstWordWithAReturnCode {
+    FIRST_WORD_WITH_A,
+    NOT_FOUND_A_WORD_WITH_A,
+    WORD_FOUND,
+    EMPTY_STRING
+} WordBeforeFirstWordWithAReturnCode;
+
+WordBeforeFirstWordWithAReturnCode getWordBeforeFirstWordWithA(char *s, WordDescriptor *w){
+    if (s == NULL || strlen(s) == 0)
+        return EMPTY_STRING;
+
+    char *wordBegin = NULL;
+    char *wordEnd = NULL;
+    char *s_copy = strtok(s, " ");
+
+    while (s_copy != NULL){
+        bool found_a = false;
+        for (int i = 0; s_copy[i] != '\0'; i++){
+            if (tolower(s_copy[i]) == 'a'){
+                found_a = true;
+                break;
+            }
+        }
+
+        if (found_a){
+
+            if (wordBegin != NULL){
+                w->begin = wordBegin;
+                w->end = wordEnd;
+                return WORD_FOUND;
+
+            }else{
+                return FIRST_WORD_WITH_A;
+            }
+
+        }else{
+            wordBegin = s_copy;
+            wordEnd = s_copy + strlen(s_copy);
+        }
+
+        s_copy = strtok(NULL, " ");
+    }
+
+    return NOT_FOUND_A_WORD_WITH_A;
+}
+
+void testAll_getWordBeforeFirstWordWithA(){
+    WordDescriptor word;
+    char s1[] = "";
+    assert(getWordBeforeFirstWordWithA(s1, &word) == EMPTY_STRING);
+    char s2[] = "ABC";
+    assert(getWordBeforeFirstWordWithA(s2, &word) == FIRST_WORD_WITH_A);
+    char s3[] = "BC A";
+    assert(getWordBeforeFirstWordWithA(s3, &word) == WORD_FOUND);
+
+    char s4[] = "B Q WE YR OW IUWR";
+    assert(getWordBeforeFirstWordWithA(s4, &word) == NOT_FOUND_A_WORD_WITH_A);
+}
+
+WordDescriptor lastWordInFirstStringFindInSecondString(char *s1, char *s2){
+
+    BagOfWords bag1, bag2;
+    getBagOfWords(&bag1, s1);
+    getBagOfWords(&bag2, s2);
+
+    for (int i = bag1.size - 1; i >= 0; i--){
+        WordDescriptor word = bag1.words[i];
+        for (int j = 0; j < bag2.size; j++){
+            if (areWordsEqual(word, bag2.words[j])){
+                return word;
+            }
+        }
+    }
+
+    WordDescriptor emptyWord = {"", ""};
+    return emptyWord;
+}
+
+void wordDescriptorToString(WordDescriptor word, char *destination){
+
+    char *wordPtr = word.begin;
+    while (wordPtr != word.end){
+        *destination++ = *wordPtr++;
+    }
+    *destination = '\0';
+}
+
+void test_lastWordInFirstStringInSecondString(){
+
+    char s1[] = "wasd rtg iddqd iqqdq ";
+    char s2[] = "wasd iddqd ";
+    char s3[] = "iqqdq ";
+    char s4[] = "eee ";
+
+    char result[MAX_WORD_SIZE];
+    WordDescriptor word;
+
+    word = lastWordInFirstStringFindInSecondString(s1, s2);
+    wordDescriptorToString(word, result);
+    ASSERT_STRING("iddqd", result);
+
+    word = lastWordInFirstStringFindInSecondString(s1, s3);
+    wordDescriptorToString(word, result);
+    ASSERT_STRING("iqqdq", result);
+
+    word = lastWordInFirstStringFindInSecondString(s1, s4);
+    wordDescriptorToString(word, result);
+    ASSERT_STRING("", result);
+}
+
+bool isHasEqualWords(char *s) {
+
+    BagOfWords bag;
+    getBagOfWords(&bag, s);
+
+    for (int i = 0; i < bag.size - 1; i++){
+        for (int j = i + 1; j < bag.size; j++){
+            if (areWordsEqual(bag.words[i], bag.words[j])){
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+void test_isHasEqialWords(){
+
+    char s1[] = "wasd rtg iddqd iqqdq ";
+    char s2[] = "wasd iddqd wasd rtg";
+
+    assert(isHasEqualWords(s1) == false);
+
+    assert(isHasEqualWords(s2));
+}
+
+void wordToIntLetters(WordDescriptor *w, int res[]){
+
+    int len = (w->end - w->begin);
+    for (int i = 0; i < len; i++){
+        int j = *(w->begin + i);
+        res[j - 'a'] = 1;
+    }
+}
+
+bool hasWordWithSameLetters(char *s){
+
+    int word1_letters[27] = {0};
+    int word2_letters[27] = {0};
+
+    WordDescriptor word1, word2;
+    word1.end = s;
+
+
+    for (int i = 0; i < strlen(s); i++){
+        getWord(word1.end, &word1);
+        wordToIntLetters(&word1, &word1_letters);
+        word2.end = word1.end;
+
+        for (int j = i + 1; j < strlen(s); j++){
+            getWord(word2.end, &word2);
+            wordToIntLetters(&word2, &word2_letters);
+
+            int res = 0;
+            for (int q = 0; q < 27; q++){
+                if (word1_letters[q] == word2_letters[q]){
+                    res++;
+                }
+            }
+            if (res == 27){
+                return  true;
+            }
+        }
+    }
+    return false;
+}
+
+void test_hasWordWithSameLetters(){
+
+    char s1[] = "iddqd iqqdq wasd rtg ";
+    char s2[] = "wasd iddqd rtg ";
+
+    assert(hasWordWithSameLetters(s1) == true);
+
+    assert(hasWordWithSameLetters(s2) == false);
+}
+
+
 void tests(){
     test_removeAdjacentEqualLetters();
     test_removeExtraSpaces();
@@ -459,9 +646,14 @@ void tests(){
     test_areWordsOrdered();
     test_reverseWordsBag();
     test_WordsPalindromesAmount();
+    testAll_getWordBeforeFirstWordWithA();
+    test_lastWordInFirstStringInSecondString();
+    test_isHasEqialWords();
+    test_hasWordWithSameLetters();
 }
 
 
 int main(){
-    test_WordsPalindromesAmount();
+
+
 }

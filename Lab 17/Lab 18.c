@@ -612,13 +612,13 @@ bool hasWordWithSameLetters(char *s){
             getWord(word2.end, &word2);
             wordToIntLetters(&word2, &word2_letters);
 
-            int res = 0;
+            int amount = 0;
             for (int q = 0; q < 27; q++){
                 if (word1_letters[q] == word2_letters[q]){
-                    res++;
+                    amount++;
                 }
             }
-            if (res == 27){
+            if (amount == 27){
                 return  true;
             }
         }
@@ -654,6 +654,5 @@ void tests(){
 
 
 int main(){
-
 
 }

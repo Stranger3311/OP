@@ -7,4 +7,4 @@ include_directories(.)
 
 add_executable(Lab17
         String_lib.h
-        "Lab 18.c")
+        Lab_18.c)

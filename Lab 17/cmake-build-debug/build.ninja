@@ -49,7 +49,7 @@ cmake_ninja_workdir = D$:/GitHub/OP/Lab$ 17/cmake-build-debug/
 
 build cmake_object_order_depends_target_Lab17: phony || CMakeFiles/Lab17.dir
 
-build CMakeFiles/Lab17.dir/Lab_18.c.obj: C_COMPILER__Lab17_unscanned_Debug D$:/GitHub/OP/Lab$ 17/Lab$ 18.c || cmake_object_order_depends_target_Lab17
+build CMakeFiles/Lab17.dir/Lab_18.c.obj: C_COMPILER__Lab17_unscanned_Debug D$:/GitHub/OP/Lab$ 17/Lab_18.c || cmake_object_order_depends_target_Lab17
   DEP_FILE = CMakeFiles\Lab17.dir\Lab_18.c.obj.d
   FLAGS = -g -std=gnu11 -fdiagnostics-color=always
   INCLUDES = -I"D:/GitHub/OP/Lab 17/."

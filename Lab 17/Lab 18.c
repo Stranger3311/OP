@@ -273,7 +273,7 @@ void test_replace(){
     ASSERT_STRING(res3, str3);
 }
 
-bool areWordsEqual(WordDescriptor w1, WordDescriptor w2){
+bool isWordsEqual(WordDescriptor w1, WordDescriptor w2){
 
     char *ptr1 = w1.begin;
     char *ptr2 = w2.begin;
@@ -291,7 +291,7 @@ bool areWordsEqual(WordDescriptor w1, WordDescriptor w2){
 
 }
 
-bool areWordsOrdered(char *s){
+bool isWordsOrdered(char *s){
 
     WordDescriptor word1;
     WordDescriptor word2;
@@ -299,7 +299,7 @@ bool areWordsOrdered(char *s){
     if (getWord(s, &word1)){
         word2 = word1;
         while (getWord(s, &word1)){
-            if (!areWordsEqual(word1, word2)){
+            if (!isWordsEqual(word1, word2)){
                 return false;
             }
             word2 = word1;
@@ -313,18 +313,18 @@ bool areWordsOrdered(char *s){
     }
 }
 
-void test_areWordsOrdered(){
+void test_isWordsOrdered(){
     char s[] = "abc";
-    assert(areWordsOrdered(s) == true);
+    assert(isWordsOrdered(s) == true);
 
     char s2[] = "b a c";
-    assert(areWordsOrdered(s2) == false);
+    assert(isWordsOrdered(s2) == false);
 
     char s3[] = "a";
-    assert(areWordsOrdered(s3) == true);
+    assert(isWordsOrdered(s3) == true);
 
     char s4[] = " ";
-    assert(areWordsOrdered(s4) == true);
+    assert(isWordsOrdered(s4) == true);
 
 }
 
@@ -381,7 +381,7 @@ void test_reverseWordsBag(){
 }
 
 
-int isWordPalindrome(char *begin, char *end){
+bool isWordPalindrome(char *begin, char *end){
 
     while (begin < end){
 
@@ -392,14 +392,14 @@ int isWordPalindrome(char *begin, char *end){
         }else{
 
             if (tolower(*begin) != tolower(*end)) {
-                return 0;
+                return false;
             }
             begin++;
             end--;
         }
     }
 
-    return 1;
+    return true;
 }
 
 size_t WordsPalindromesAmount(char *s){
@@ -518,7 +518,7 @@ WordDescriptor lastWordInFirstStringFindInSecondString(char *s1, char *s2){
     for (int i = bag1.size - 1; i >= 0; i--){
         WordDescriptor word = bag1.words[i];
         for (int j = 0; j < bag2.size; j++){
-            if (areWordsEqual(word, bag2.words[j])){
+            if (isWordsEqual(word, bag2.words[j])){
                 return word;
             }
         }
@@ -567,7 +567,7 @@ bool isHasEqualWords(char *s) {
 
     for (int i = 0; i < bag.size - 1; i++){
         for (int j = i + 1; j < bag.size; j++){
-            if (areWordsEqual(bag.words[i], bag.words[j])){
+            if (isWordsEqual(bag.words[i], bag.words[j])){
                 return true;
             }
         }
@@ -635,7 +635,205 @@ void test_hasWordWithSameLetters(){
 
     assert(hasWordWithSameLetters(s2) == false);
 }
+char *srtingWithWordsNoLastWord(char *s){
 
+    char *last_space = strrchr(s, ' ');
+    if (last_space != NULL)
+        *last_space = '\0';
+
+    return s;
+}
+
+void test_srtingWithWordsNoLastWord(){
+    char str[] = "eee qqe eeq  eew";
+
+    char *res = srtingWithWordsNoLastWord(str);
+
+    ASSERT_STRING(res, "eee qqe eeq ");
+
+    char str1[] = "345 56 78";
+
+    char *res1 = srtingWithWordsNoLastWord(str1);
+
+    ASSERT_STRING(res1, "345 56");
+}
+
+bool isWordInBag(BagOfWords bag, WordDescriptor word){
+    for (int i = 0; i < bag.size; i++){
+        if (strncmp(word.begin, bag.words[i].begin, word.end - word.begin) == 0){
+            return true;
+        }
+    }
+    return false;
+}
+
+WordDescriptor beforeEqualWordInStrings(char *s1, char *s2){
+
+    BagOfWords bag, bag2;
+
+    getBagOfWords(&bag, s1);
+    getBagOfWords(&bag2, s2);
+
+    for (int i = 0; i < bag.size; i++){
+        if (isWordInBag(bag2, bag.words[i])){
+
+            if (i != 0){
+                return  bag.words[i - 1];
+
+            }else{
+                break;
+            }
+        }
+    }
+
+    WordDescriptor NULL_word = {NULL, NULL};
+
+    return NULL_word;
+}
+
+void test_beforeEqualWordInStrings(){
+    char s1[] = "eee qqe iddqd eew";
+    char s2[] = "www wwq iddqd qqw";
+
+    WordDescriptor res_word = beforeEqualWordInStrings(s1, s2);
+    char *string_res[MAX_STRING_SIZE];
+    wordDescriptorToString(res_word, string_res);
+
+    ASSERT_STRING("qqe", string_res);
+}
+
+void removePalindromes(char *s){
+
+    BagOfWords bag;
+    getBagOfWords(&bag, s);
+
+    for (int i = 0; i < bag.size; i++) {
+        WordDescriptor word = bag.words[i];
+
+        if (isWordPalindrome(word.begin, word.end)){
+
+            char *ptr = word.begin;
+            while (ptr != word.end) {
+                *ptr = ' ';
+                ptr++;
+            }
+        }
+    }
+
+    removeExtraSpaces(s);
+}
+
+void test_removePalindrome(){
+
+    char s1[] = "qqe www eee IDDQD IDQDI eew";
+    removePalindromes(s1);
+
+    ASSERT_STRING("qqe IDDQD eew", s1);
+}
+
+void addWordsToLowest(char *s1, char *s2){
+
+    BagOfWords bag1, bag2;
+    getBagOfWords(&bag1, s1);
+    getBagOfWords(&bag2, s2);
+
+    if (bag1.size < bag2.size){
+        char *ptr1 = s1 + strlen_(s1);
+
+        for (int i = bag1.size; i < bag2.size; i++){
+            if (ptr1 != s1){
+                *ptr1++ = ' ';
+            }
+
+            WordDescriptor word = bag2.words[i];
+            char *wordPtr = word.begin;
+
+            while (wordPtr != word.end){
+                *ptr1++ = *wordPtr++;
+            }
+        }
+
+        *ptr1 = '\0';
+    }
+
+    if (bag1.size > bag2.size){
+        char *ptr2 = s2 + strlen_(s2);
+
+        for (int i = bag2.size; i < bag1.size; i++){
+            if (ptr2 != s1){
+                *ptr2++ = ' ';
+            }
+
+            WordDescriptor word = bag2.words[i];
+            char *wordPtr = word.begin;
+
+            while (wordPtr != word.end){
+                *ptr2++ = *wordPtr++;
+            }
+        }
+
+        *ptr2 = '\0';
+    }
+}
+
+void test_addWordsToLowest(){
+
+    char str1[] = "blackSheepWall thereIsNoCowLevel";
+    char str2[] = "eew thereIsNoCowLevel powerOverwhelming";
+    addWordsToLowest(str1, str2);
+
+    ASSERT_STRING("blackSheepWall thereIsNoCowLevel powerOverwhelming", str1);
+
+    char str3[] = "thereIsNoCowLevel eew blackSheepWall";
+    char str4[] = "thereIsNoCowLevel powerOverwhelming";
+    addWordsToLowest(str4, str3);
+
+    ASSERT_STRING("thereIsNoCowLevel powerOverwhelming blackSheepWall", str4);
+}
+
+bool hasStringWithWordLetters(char *s, char *word){
+
+    int word1_letters[27] = {0};
+    int word2_letters[27] = {0};
+
+    WordDescriptor word1, w;
+    word1.end = s;
+    getWord(word, &w);
+    wordToIntLetters(&w, &word1_letters);
+
+    int letters_amount = 0;
+    for (int i = 0; i < 27; i++){
+        letters_amount += word1_letters[i];
+    }
+
+    int amount = 0;
+
+    for (int i = 0; i < strlen(s); i++){
+        getWord(word1.end, &word1);
+        wordToIntLetters(&word1, &word2_letters);
+
+            for (int q = 0; q < 27; q++){
+                if (word1_letters[q] == 1 && word2_letters[q] == 1){
+                    amount++;
+                    word1_letters[q]++;
+                }
+            }
+        }
+    if (amount == letters_amount){
+        return  true;
+    }
+
+    return false;
+}
+
+void test_hasStringWithWordLetters(){
+    const char word[] = "qeq";
+    const char *str = "qqe eeq";
+    const char word2[] = "www";
+
+    assert(hasStringWithWordLetters(str, word) == 1);
+    assert(hasStringWithWordLetters(str,word2) == 0);
+}
 
 void tests(){
     test_removeAdjacentEqualLetters();
@@ -643,16 +841,21 @@ void tests(){
     test_digitsToStart();
     test_digitsToSpaces();
     test_replace();
-    test_areWordsOrdered();
+    test_isWordsOrdered();
     test_reverseWordsBag();
     test_WordsPalindromesAmount();
     testAll_getWordBeforeFirstWordWithA();
     test_lastWordInFirstStringInSecondString();
     test_isHasEqialWords();
     test_hasWordWithSameLetters();
+    test_srtingWithWordsNoLastWord();
+    test_beforeEqualWordInStrings();
+    test_removePalindrome();
+    test_addWordsToLowest();
+    test_hasStringWithWordLetters();
 }
 
 
 int main(){
-
+    tests();
 }

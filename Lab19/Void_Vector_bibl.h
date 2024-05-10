@@ -115,7 +115,8 @@ void pushBackVoid(vectorVoid *v, void *source){
         reserveVoid(v,newCapacity);
     }
 
-    char *destination = (char *) v->data + (v->size - 1) * v->baseTypeSize;
+    char *destination = (char *) v->data + v->size * v->baseTypeSize;
+
     memcpy(destination, source, v->baseTypeSize);
     (v->size)++;
 }

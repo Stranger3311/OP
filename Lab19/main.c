@@ -652,8 +652,8 @@ void test_leave_longest_word_1_empty_file() {
 void test_leave_longest_word_2_one_element_in_line() {
     const char filename[] = "D:\\GitHub\\OP\\Lab19\\task_5_test_2.txt";
 
-    char line1[] = "abcd";
-    char line2[] = "efg";
+    char line1[] = "rty";
+    char line2[] = "jkl";
 
     FILE* file = fopen(filename, "w");
 
@@ -685,9 +685,9 @@ void test_leave_longest_word_2_one_element_in_line() {
 void test_leave_longest_word_3_more_element_in_line() {
     const char filename[] = "D:\\GitHub\\OP\\Lab19\\task_5_test_3.txt";
 
-    char line1[] = "kkals rtg ";
-    char line2[] = "efg qweqw ";
-    char line3[] = "hi my to ";
+    char line1[] = "asdfghjkl rtg ";
+    char line2[] = "ikmu qqe ";
+    char line3[] = "cvb tyu ";
 
     FILE* file = fopen(filename, "w");
 
@@ -715,13 +715,13 @@ void test_leave_longest_word_3_more_element_in_line() {
 
     fclose(file);
 
-    char check1[] = "kkals";
-    char check2[] = "qweqw";
-    char check3[] = "hi";
+    char res1[] = "asdfghjkl";
+    char res2[] = "ikmu";
+    char res3[] = "cvb";
 
-    assert(strcmp(check1, res_line1) == 0);
-    assert(strcmp(check2, res_line2) == 0);
-    assert(strcmp(check3, res_line3) == 0);
+    assert(strcmp(res1, res_line1) == 0);
+    assert(strcmp(res2, res_line2) == 0);
+    assert(strcmp(res3, res_line3) == 0);
 }
 
 

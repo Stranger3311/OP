@@ -547,5 +547,13 @@ bool hasStringWithWordLetters(char *s, char *word){
     return false;
 }
 
+void free_bag(BagOfWords *b){
+    for (int i = 0; i < b->size; i++){
+        //free(&(b->words[i]));
+        b->words[i].begin = NULL;
+        b->words[i].end = NULL;
+    }
+    b->size = 0;
+}
 
 #endif //LAB19_WORDS_H

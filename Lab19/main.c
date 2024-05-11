@@ -7,6 +7,7 @@
 #include <stdbool.h>
 #include "Words.h"
 #include <math.h>
+#include "Vector_bibl.h"
 
 //задание 1
 void transpose_matrix_in_file(const char* filename) {
@@ -882,11 +883,157 @@ void test_remove_true_polynomial() {
     test_remove_true_polynomial_3_true_expression();
 }
 
+//задание 7
+void positive_first(const char* filename) {
+    vector positive_numbers = createVector(2);
+    vector negative_numbers = createVector(2);
+
+    FILE* file = fopen(filename, "rb");
+    if (file == NULL) {
+        printf("reading error\n");
+        exit(1);
+    }
+
+    int current_number;
+    while (fread(&current_number, sizeof(int), 1, file) == 1) {
+        if (current_number >= 0)
+            pushBack(&positive_numbers, current_number);
+        else
+            pushBack(&negative_numbers, current_number);
+    }
+
+    fclose(file);
+
+    file = fopen(filename, "wb");
+    if (file == NULL) {
+        printf("reading error\n");
+        exit(1);
+    }
+
+    for (int i = 0; i < positive_numbers.size; i++)
+        fwrite(positive_numbers.data + i, sizeof(int), 1, file);
+
+    for (int i = 0; i < negative_numbers.size; i++)
+        fwrite(negative_numbers.data + i, sizeof(int), 1, file);
+
+    deleteVector(&positive_numbers);
+    deleteVector(&negative_numbers);
+    fclose(file);
+}
+
+void test_positive_first_1_only_negative() {
+    const char filename[] = "D:\\GitHub\\OP\\Lab19\\task_7_test_1.txt";
+
+    int x1 = -8;
+    int x2 = -7;
+    int x3 = -6;
+
+    FILE* file = fopen(filename, "wb");
+
+    fwrite(&x1, sizeof(int), 1, file);
+    fwrite(&x2, sizeof(int), 1, file);
+    fwrite(&x3, sizeof(int), 1, file);
+
+    fclose(file);
+
+    positive_first(filename);
+
+    file = fopen(filename, "rb");
+
+    int res_1, res_2, res_3;
+    fread(&res_1, sizeof(int), 1, file);
+    fread(&res_2, sizeof(int), 1, file);
+    fread(&res_3, sizeof(int), 1, file);
+
+    fclose(file);
+
+    assert(x1 == res_1);
+    assert(x2 == res_2);
+    assert(x3 == res_3);
+}
+
+void test_positive_first_2_only_positive() {
+    const char filename[] = "D:\\GitHub\\OP\\Lab19\\task_7_test_2.txt";
+
+    int x1 = 9;
+    int x2 = 9;
+    int x3 = 3;
+
+    FILE* file = fopen(filename, "wb");
+
+    fwrite(&x1, sizeof(int), 1, file);
+    fwrite(&x2, sizeof(int), 1, file);
+    fwrite(&x3, sizeof(int), 1, file);
+
+    fclose(file);
+
+    positive_first(filename);
+
+    file = fopen(filename, "rb");
+
+    int res_1, res_2, res_3;
+    fread(&res_1, sizeof(int), 1, file);
+    fread(&res_2, sizeof(int), 1, file);
+    fread(&res_3, sizeof(int), 1, file);
+
+    fclose(file);
+
+    assert(x1 == res_1);
+    assert(x2 == res_2);
+    assert(x3 == res_3);
+}
+
+void test_positive_first_3_both() {
+    const char filename[] = "D:\\GitHub\\OP\\Lab19\\task_7_test_3.txt";
+
+    int x5 = -7;
+    int x1 = 1;
+    int x2 = 0;
+    int x3 = 0;
+    int x4 = 0;
+
+    FILE* file = fopen(filename, "wb");
+
+    fwrite(&x5, sizeof(int), 1, file);
+    fwrite(&x1, sizeof(int), 1, file);
+    fwrite(&x2, sizeof(int), 1, file);
+    fwrite(&x3, sizeof(int), 1, file);
+    fwrite(&x4, sizeof(int), 1, file);
+
+    fclose(file);
+
+    positive_first(filename);
+
+    file = fopen(filename, "rb");
+
+    int res_1, res_2, res_3, res_4, res_5;
+    fread(&res_1, sizeof(int), 1, file);
+    fread(&res_2, sizeof(int), 1, file);
+    fread(&res_3, sizeof(int), 1, file);
+    fread(&res_4, sizeof(int), 1, file);
+    fread(&res_5, sizeof(int), 1, file);
+
+    fclose(file);
+
+    assert(res_1 == x1);
+    assert(res_2 == x2);
+    assert(res_3 == x3);
+    assert(res_4 == x4);
+    assert(res_5 == x5);
+}
+
+void test_rearrange_numbers() {
+    test_positive_first_1_only_negative();
+    test_positive_first_2_only_positive();
+    test_positive_first_3_both();
+}
+
 
 int main(){
     //test_convert_float();
     //test_matrix_transpose();
     //test_filter_word();
     //test_leave_longest();
-    test_remove_true_polynomial();
+    //test_remove_true_polynomial();
+    test_rearrange_numbers();
 }

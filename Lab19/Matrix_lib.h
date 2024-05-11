@@ -128,7 +128,7 @@ void outputMatrices(matrix *ms, int nMatrices){
 
 void swapRows(matrix m, int n1, int n2){
 
-    int temp = m.values[n1];
+    int *temp = m.values[n1];
     m.values[n1] = m.values[n2];
     m.values[n2] = temp;
 }
@@ -136,7 +136,7 @@ void swapRows(matrix m, int n1, int n2){
 void swapColumns(matrix *m, int j1, int j2){
 
     for (int i = 0; i < m->nCols; i++){
-        int *temp = m->values[i][j1];
+        int temp = m->values[i][j1];
         m->values[i][j1] = m->values[i][j2];
         m->values[i][j2] = temp;
     }

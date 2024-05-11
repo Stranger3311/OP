@@ -1028,6 +1028,149 @@ void test_rearrange_numbers() {
     test_positive_first_3_both();
 }
 
+//задание 8
+void transpose_non_symmetric_matrix(const char* filename) {
+    FILE* file = fopen(filename, "r+b");
+    if (file == NULL) {
+        printf("Ошибка при открытии файла.\n");
+        return;
+    }
+
+    int n;
+    if (fread(&n, sizeof(int), 1, file) != 1) {
+        printf("Ошибка при чтении порядка матрицы.\n");
+        fclose(file);
+        return;
+    }
+
+    while(1) {
+        int matrix[n][n];
+        size_t read_count = fread(matrix, sizeof(int), n * n, file);
+        if (read_count != n * n) {
+            if (feof(file)) {
+                break;
+            } else {
+                printf("Ошибка при чтении матрицы.\n");
+                break;
+            }
+        }
+
+        if (!isSymmetricMatrix(matrix)) {
+            transposeSquareMatrix(matrix);
+            fseek(file, -(long int)read_count * sizeof(int), SEEK_CUR);
+            fwrite(matrix, sizeof(int), read_count, file);
+            fseek(file, (long int)read_count * sizeof(int), SEEK_CUR);
+        }
+    }
+
+    fclose(file);
+}
+
+void test_transpose_non_symmetric_matrix_1_empty_matrix() {
+    const char filename[] = "D:\\GitHub\\OP\\Lab19\\task_8_test_1.txt";
+
+    int n = 0;
+    FILE* file = fopen(filename, "wb");
+
+    fwrite(&n, sizeof(int), 1, file);
+
+    fclose(file);
+
+    file = fopen(filename, "rb");
+
+    int res_n;
+    fread(&res_n, sizeof(int), 1, file);
+
+    fclose(file);
+
+    assert(n == res_n);
+}
+
+void test_transpose_non_symmetric_matrix_2_symmetric_matrix() {
+    const char filename[] = "D:\\GitHub\\OP\\Lab19\\task_8_test_3.txt";
+
+    FILE* file = fopen(filename, "wb");
+
+    int n = 3;
+    matrix m = createMatrixFromArray((int[]) {1, 0, 0,
+                                                 0, 1, 0,
+                                                 0, 0, 1}, 3, 3);
+
+    fwrite(&n, sizeof(int), 1, file);
+    for (int i = 0; i < n; i++)
+        for (int j = 0; j < n; j++)
+            fwrite(&m.values[i][j], sizeof(int), 1, file);
+
+    fclose(file);
+
+    transpose_non_symmetric_matrix(filename);
+
+    file = fopen(filename, "rb");
+
+    int res_n;
+    fread(&res_n, sizeof(int), 1, file);
+    matrix res_m = getMemMatrix(res_n, res_n);
+    for (int i = 0; i < n; i++)
+        for (int j = 0; j < n; j++)
+            fread(&res_m.values[i][j], sizeof(int), 1, file);
+
+    fclose(file);
+
+    assert(areTwoMatrixEqual(&res_m, &m));
+
+    freeMemMatrix(&m);
+    freeMemMatrix(&res_m);
+}
+
+
+void test_transpose_non_symmetric_matrix_3_non_symmetric_matrix() {
+    const char filename[] = "D:\\GitHub\\OP\\Lab19\\task_8_test_4.txt";
+
+    FILE* file = fopen(filename, "wb");
+
+    int n = 3;
+    matrix m = createMatrixFromArray((int[]) {1, 2, 3,
+                                                 4, 5, 6,
+                                                 7, 8, 9}, 3, 3);
+
+    fwrite(&n, sizeof(int), 1, file);
+    for (int i = 0; i < n; i++)
+        for (int j = 0; j < n; j++)
+            fwrite(&m.values[i][j], sizeof(int), 1, file);
+
+    fclose(file);
+
+    transpose_non_symmetric_matrix(filename);
+
+    file = fopen(filename, "rb");
+
+    int res_n;
+    fread(&res_n, sizeof(int), 1, file);
+    matrix res_m = getMemMatrix(res_n, res_n);
+    for (int i = 0; i < n; i++)
+        for (int j = 0; j < n; j++)
+            fread(&res_m.values[i][j], sizeof(int), 1, file);
+
+    fclose(file);
+
+    matrix check = createMatrixFromArray((int[]) {1, 4, 7,
+                                                     2, 5, 8,
+                                                     3, 6, 9}, 3, 3);
+
+    assert(res_n == n);
+    assert(areTwoMatrixEqual(&res_m, &check));
+
+    freeMemMatrix(&m);
+    freeMemMatrix(&res_m);
+    freeMemMatrix(&res_m);
+}
+
+void test_transpose_non_symmetric_matrix() {
+    test_transpose_non_symmetric_matrix_1_empty_matrix();
+    test_transpose_non_symmetric_matrix_2_symmetric_matrix();
+    test_transpose_non_symmetric_matrix_3_non_symmetric_matrix();
+}
+
 
 int main(){
     //test_convert_float();
@@ -1035,5 +1178,6 @@ int main(){
     //test_filter_word();
     //test_leave_longest();
     //test_remove_true_polynomial();
-    test_rearrange_numbers();
+    //test_rearrange_numbers();
+    test_transpose_non_symmetric_matrix();
 }

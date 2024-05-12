@@ -1479,10 +1479,43 @@ void test_update_product_3_order_less_product() {
     assert(strcmp(od.order_name, res_od.order_name) == 0 && od.quantity == res_od.quantity);
 }
 
+void test_update_product_4_second_file_empty() {
+    const char filename1[] = "D:\\GitHub\\OP\\Lab19\\task_10_test_4.txt";
+    const char filename2[] = "D:\\GitHub\\OP\\Lab19\\task_10_test_4a.txt";
+
+    FILE* file = fopen(filename1, "wb");
+    product pr = {.product_name="name", .unit_price=10, .total_cost=20, .quantity=2};
+    fwrite(&pr, sizeof(product), 1, file);
+    fclose(file);
+
+    file = fopen(filename2, "wb");
+    fclose(file);
+
+    update_product(filename1, filename2);
+
+    file = fopen(filename1, "rb");
+    product res_pr;
+    fread(&res_pr, sizeof(product), 1, file);
+    fclose(file);
+
+    file = fopen(filename2, "rb");
+    char data[10] = "";
+    fread(data, sizeof(data), 1, file);
+    fclose(file);
+
+    assert(strcmp(pr.product_name, res_pr.product_name) == 0);
+    assert(pr.unit_price == res_pr.unit_price);
+    assert(pr.total_cost == res_pr.total_cost);
+    assert(pr.quantity == res_pr.quantity);
+    assert(strcmp(data, "") == 0);
+}
+
+
 void test_update_product() {
     test_update_product_1_empty_files();
     test_update_product_2_order_more_product();
     test_update_product_3_order_less_product();
+    test_update_product_4_second_file_empty();
 }
 
 

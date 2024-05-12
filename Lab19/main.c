@@ -1337,6 +1337,26 @@ void generate_name(char* s) {
     *rec_ptr = '\0';
 }
 
+void generate_team(const char* filename, const int n) {
+
+    FILE* file = fopen(filename, "wb");
+    if (file == NULL) {
+        printf("reading error\n");
+        exit(1);
+    }
+
+    for (int i = 0; i < n; i++) {
+        sportsman s;
+        generate_name(s.name);
+
+        s.best_result = (double) rand() / 100;
+
+        fwrite(&s, sizeof(sportsman),1, file);
+    }
+
+    fclose(file);
+}
+
 void sort_sportsman(sportsman sm[], const int n) {
     for (int i = 0; i < n; i++)
         for (int j = 0; j < n - i - 1; j++)

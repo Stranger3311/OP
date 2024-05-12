@@ -405,9 +405,9 @@ void test_calculate() {
 }
 
 //задание 4
-int compare_letters(const void* s1, const void* s2) {
-    return *(const unsigned char*) s1 - *(const unsigned char*) s2;
-}
+    int compare_letters(const void* s1, const void* s2) {
+        return *(const unsigned char*) s1 - *(const unsigned char*) s2;
+    }
 
 void sort_word_letters(WordDescriptor* word) {
     qsort(word->begin, word->end - word->begin + 1, sizeof(char), compare_letters);
@@ -1022,7 +1022,7 @@ void test_positive_first_3_both() {
     assert(res_5 == x5);
 }
 
-void test_rearrange_numbers() {
+void test_positive_first() {
     test_positive_first_1_only_negative();
     test_positive_first_2_only_positive();
     test_positive_first_3_both();
@@ -1492,7 +1492,7 @@ int main(){
     //test_filter_word();
     //test_leave_longest();
     //test_remove_true_polynomial();
-    //test_rearrange_numbers();
+    //test_positive_first_numbers();
     //test_transpose_non_symmetric_matrix();
     //test_get_best_team();
     test_update_product();

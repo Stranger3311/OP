@@ -10,6 +10,27 @@
 #include "Vector_bibl.h"
 
 //задание 1
+void generate_random_matrix_file(const char* filename, size_t n) {
+
+    FILE* file = fopen(filename, "w");
+    if (file == NULL) {
+        printf("reading error\n");
+        exit(1);
+    }
+
+    fprintf(file, "%lld\n", n);
+
+    for (size_t i = 0; i < n; i++) {
+        for (size_t j = 0; j < n; j++) {
+            fprintf(file, "%d ", rand() % 10);
+        }
+
+        fprintf(file, "\n");
+    }
+
+    fclose(file);
+}
+
 void transpose_matrix_in_file(const char* filename) {
     FILE* file = fopen(filename, "r");
     if (file == NULL) {
@@ -175,6 +196,20 @@ void test_matrix_transpose() {
 }
 
 //задание 2
+void generate_float(const char* filename, int n) {
+
+    FILE* file = fopen(filename, "w");
+    if (file == NULL) {
+        printf("reading error\n");
+        exit(1);
+    }
+
+    for (size_t i = 0; i < n; i++)
+        fprintf(file, "%f ", 10.0 * rand() / RAND_MAX);
+
+    fclose(file);
+}
+
 void convert_float(const char* filename) {
     FILE* file = fopen(filename, "r");
     if (file == NULL) {
@@ -223,7 +258,6 @@ void test_convert_float_1_zero_numbers() {
 
     assert(strcmp(data, "0.00") == 0);
 }
-
 
 void test_convert_float_2_one_number() {
     const char filename[] = "D:\\GitHub\\OP\\Lab19\\task_2_test_2.txt";
@@ -281,6 +315,33 @@ void test_convert_float() {
     test_convert_float_1_zero_numbers();
     test_convert_float_2_one_number();
     test_convert_float_3_three_numbers();
+}
+
+//задание 3
+void generate_expression(const char *file_name) {
+
+    FILE *file = fopen(file_name, "w");
+    if (file == NULL) {
+        printf("reading error\n");
+        exit(1);
+    }
+
+    int x1 = rand() % 10;
+    int x2 = rand() % 10;
+    int x3 = rand() % 10;
+
+    char operators[] = "+-*/";
+    char op1 = operators[rand() % 4];
+    char op2 = operators[rand() % 4];
+
+    bool one_operation = rand() % 2;
+
+    if (one_operation)
+        fprintf(file, "(%d %c %d)", x1, op1, x2);
+    else
+        fprintf(file, "(%d %c %d) %c %d", x1, op1, x2, op2, x3);
+
+    fclose(file);
 }
 
 void calculate_expression(const char* filename) {
@@ -405,9 +466,24 @@ void test_calculate() {
 }
 
 //задание 4
-    int compare_letters(const void* s1, const void* s2) {
-        return *(const unsigned char*) s1 - *(const unsigned char*) s2;
+void generate_string(const char* filename, char* source_string) {
+    FILE* file = fopen(filename, "w");
+    if (file == NULL) {
+        printf("reading error\n");
+        exit(1);
     }
+
+    size_t string_length = strlen_(source_string);
+
+    for (size_t i = 0; i <= string_length; i++)
+        fprintf(file, "%c", source_string[i]);
+
+    fclose(file);
+}
+
+int compare_letters(const void* s1, const void* s2) {
+        return *(const unsigned char*) s1 - *(const unsigned char*) s2;
+}
 
 void sort_word_letters(WordDescriptor* word) {
     qsort(word->begin, word->end - word->begin + 1, sizeof(char), compare_letters);
@@ -434,21 +510,6 @@ bool is_letters_in_word(WordDescriptor sub_word, WordDescriptor word) {
     }
 
     return true;
-}
-
-void generate_string(const char* filename, char* source_string) {
-    FILE* file = fopen(filename, "w");
-    if (file == NULL) {
-        printf("reading error\n");
-        exit(1);
-    }
-
-    size_t string_length = strlen_(source_string);
-
-    for (size_t i = 0; i <= string_length; i++)
-        fprintf(file, "%c", source_string[i]);
-
-    fclose(file);
 }
 
 void filter_word(const char* filename, char* source_word) {
@@ -557,6 +618,27 @@ void test_filter_word() {
 }
 
 //задание 5
+void generate_text_file(const char* filename, int lines, int word, int max_word_size) {
+
+    FILE* file = fopen(filename, "w");
+    if (file == NULL) {
+        printf("reading error\n");
+        exit(1);
+    }
+
+    for (int i = 0; i < lines; i++) {
+        for (int j = 0; j < word; j++) {
+            for (int k = 0; k < rand() % max_word_size + 1; k++) {
+                fprintf(file, "%c", 'a' + rand() % 26);
+            }
+            fprintf(file, " ");
+        }
+        fprintf(file, "\n");
+    }
+
+    fclose(file);
+}
+
 void leave_longest_word(const char* filename) {
     FILE* file = fopen(filename, "r");
     if (file == NULL) {
@@ -739,10 +821,34 @@ typedef struct monomial {
     double coefficient;
 } monomial;
 
+void generate_polynomial(const char* filename) {
+
+    FILE* file = fopen(filename, "wb");
+    if (file == NULL) {
+        printf("reading error\n");
+        exit(1);
+    }
+
+    int amount_polynomial = rand() % 5 + 2;
+
+    for (int k = 0; k < amount_polynomial; k++) {
+        int amount_monomial = rand() % 5 + 1;
+
+        monomial mono;
+        for (int i = 0; i <= amount_monomial; i++) {
+            mono.degree = amount_monomial - i;
+            mono.coefficient = 2.0 * rand() / RAND_MAX - 1.0;
+
+            fwrite(&mono, sizeof(monomial), 1, file);
+        }
+    }
+
+    fclose(file);
+}
+
 double get_monomial_value(monomial mono, double x) {
     return pow(x, mono.degree) * mono.coefficient;
 }
-
 
 void remove_true_polynomial(const char* filename, double x) {
     vectorVoid v = createVoidVector(16, sizeof(monomial));
@@ -758,7 +864,6 @@ void remove_true_polynomial(const char* filename, double x) {
         pushBackVoid(&v, &mono);
 
     fclose(file);
-
 
     file = fopen(filename, "wb");
     if (file == NULL) {
@@ -848,7 +953,6 @@ void test_remove_true_polynomial_2_not_true_expression() {
     assert(c.coefficient - res_c.coefficient <= 0.0001 && c.degree == res_c.degree);
 }
 
-
 void test_remove_true_polynomial_3_true_expression() {
     const char filename[] = "D:\\GitHub\\OP\\Lab19\\task_6_test_3.txt";
 
@@ -884,6 +988,24 @@ void test_remove_true_polynomial() {
 }
 
 //задание 7
+void generate_numbers_array(const char* filename) {
+
+    FILE* file = fopen(filename, "wb");
+    if (file == NULL) {
+        printf("reading error\n");
+        exit(1);
+    }
+
+    int amount_numbers = (int) rand() % 10 + 1;
+
+    for (int i = 0; i < amount_numbers; i++) {
+        int x = rand() % 200 - 100;
+        fwrite(&x, sizeof(int), 1, file);
+    }
+
+    fclose(file);
+}
+
 void positive_first(const char* filename) {
     vector positive_numbers = createVector(2);
     vector negative_numbers = createVector(2);
@@ -1029,6 +1151,32 @@ void test_positive_first() {
 }
 
 //задание 8
+void generate_non_symmetric_matrix(const char* filename) {
+
+    FILE* file = fopen(filename, "wb");
+    if (file == NULL) {
+        printf("reading error\n");
+        exit(1);
+    }
+
+    int n = rand() % 2 + 2;
+    fwrite(&n, sizeof(int), 1, file);
+
+    int amount_matrix = rand() % 3 + 1;
+
+    for (int k = 0; k < amount_matrix; k++) {
+        int matrix[n][n];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                matrix[i][j] = rand() % 100;
+            }
+        }
+        fwrite(matrix, sizeof(int), n * n, file);
+    }
+
+    fclose(file);
+}
+
 void transpose_non_symmetric_matrix(const char* filename) {
     FILE* file = fopen(filename, "r+b");
     if (file == NULL) {
@@ -1122,7 +1270,6 @@ void test_transpose_non_symmetric_matrix_2_symmetric_matrix() {
     freeMemMatrix(&res_m);
 }
 
-
 void test_transpose_non_symmetric_matrix_3_non_symmetric_matrix() {
     const char filename[] = "D:\\GitHub\\OP\\Lab19\\task_8_test_4.txt";
 
@@ -1178,6 +1325,17 @@ typedef struct sportsman {
     char name[MAX_STRING_SIZE];
     double best_result;
 } sportsman;
+
+void generate_name(char* s) {
+    int name_length = rand() % 30 + 5;
+
+    char* rec_ptr = s;
+    for (int i = 0; i < name_length; i++) {
+        *rec_ptr = rand() % 26 + 97;
+        rec_ptr++;
+    }
+    *rec_ptr = '\0';
+}
 
 void sort_sportsman(sportsman sm[], const int n) {
     for (int i = 0; i < n; i++)
@@ -1313,6 +1471,63 @@ typedef struct order {
     char order_name[MAX_STRING_SIZE];
     int quantity;
 } order;
+
+void generate_product_and_order(const char* filename1, const char* filename2) {
+    FILE* file1 = fopen(filename1, "wb");
+    if (file1 == NULL) {
+        printf("reading error\n");
+        exit(1);
+    }
+
+    FILE* file2 = fopen(filename2, "wb");
+    if (file2 == NULL) {
+        printf("reading error\n");
+        exit(1);
+    }
+
+    int amount_product = rand() % 15 + 1;
+    int amount_order = amount_product % 2 + 1;
+
+    for (int i = 0; i < amount_product; i++) {
+        product pr;
+        order od;
+
+        pr.unit_price = rand() % 100 + 1;
+        pr.quantity = rand() % 20 + 1;
+        pr.total_cost = pr.unit_price * pr.quantity;
+
+        int name_length = rand() % 10 + 1;
+        char* product_rec_ptr = pr.product_name;
+        char* order_rec_ptr = od.order_name;
+
+        for (int j = 0; j < name_length; j++) {
+            char ch = rand() % 26 + 97;
+
+            *product_rec_ptr = ch;
+            product_rec_ptr++;
+
+            if (amount_order > 0) {
+                *order_rec_ptr = ch;
+                order_rec_ptr++;
+            }
+        }
+
+        *product_rec_ptr = '\0';
+        if (amount_order > 0) {
+            *order_rec_ptr = '\0';
+            od.quantity = rand() % 25 + 1;
+        }
+
+        fwrite(&pr, sizeof(product), 1, file1);
+        if (amount_order > 0)
+            fwrite(&od, sizeof(order), 1, file2);
+
+        amount_order--;
+    }
+
+    fclose(file1);
+    fclose(file2);
+}
 
 void update_product(const char* filename1, const char* filename2) {
     vectorVoid v1 = createVoidVector(16, sizeof(product));
@@ -1518,7 +1733,6 @@ void test_update_product() {
     test_update_product_4_second_file_empty();
 }
 
-
 int main(){
     //test_convert_float();
     //test_matrix_transpose();
@@ -1528,5 +1742,6 @@ int main(){
     //test_positive_first_numbers();
     //test_transpose_non_symmetric_matrix();
     //test_get_best_team();
-    test_update_product();
+    //test_update_product();
+
 }

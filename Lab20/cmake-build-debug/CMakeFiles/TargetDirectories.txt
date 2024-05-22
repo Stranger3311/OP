@@ -1,0 +1,3 @@
+D:/GitHub/OP/Lab20/cmake-build-debug/CMakeFiles/Lab20.dir
+D:/GitHub/OP/Lab20/cmake-build-debug/CMakeFiles/edit_cache.dir
+D:/GitHub/OP/Lab20/cmake-build-debug/CMakeFiles/rebuild_cache.dir

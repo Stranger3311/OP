@@ -138,12 +138,97 @@ void test_t_3() {
     assert(areTwoMatrixEqual(&m, &transformed_matrix));
 }
 
+typedef struct domain {
+    size_t visits_site;
+    char name_site[1024];
+} domain;
+
+size_t find_domain_in_results(const domain *results, size_t size, char *s) {
+    for (size_t index = 0; index < size; index++) {
+        if (strcmp(results[index].name_site, s) == 0) {
+            return index;
+        }
+    }
+    return size;
+}
+
+bool find_number_in_arr(const size_t array[], size_t length, size_t num) {
+    for (size_t index = 0; index < length; index++) {
+        if (num == array[index])
+            return true;
+    }
+    return false;
+}
+void dot_prt_not_null(domain *array, size_t index, char *dot_ptr, domain res[], size_t *size_res) {
+    strcpy(array[index].name_site, dot_ptr + 1);
+    size_t position = find_domain_in_results(res, *size_res, array[index].name_site);
+    if (position == *size_res) {
+        res[*size_res] = array[index];
+        *size_res += 1;
+    } else {
+        res[position].visits_site += array[index].visits_site;
+    }
+}
+
+void output_arrays_domains(domain *res, size_t size) {
+    for (size_t index = 0; index < size; index++) {
+        printf("%zd %s\n", res[index].visits_site, res[index].name_site);
+    }
+}
+
+void task_4(domain a[], size_t size) {
+    size_t close_index_size[size];
+    size_t amount_close = 0;
+    domain res[1024];
+    size_t size_res = 0;
+    for (size_t i = 0; i < size; i++) {
+        res[size_res++] = a[i];
+    }
+    while (amount_close != size) {
+        for (size_t index = 0; index < size; index++) {
+            if (!find_number_in_arr(close_index_size, amount_close, index)) {
+                char *dot_ptr;
+                dot_ptr = strchr(a[index].name_site, '.');
+                if (dot_ptr != NULL) {
+                    dot_prt_not_null(a, index, dot_ptr, res, &size_res);
+                }else {
+                    close_index_size[amount_close++] = index;
+                }
+            }
+        }
+    }
+    output_arrays_domains(res, size_res);
+}
+
+void test_t_4_1() {
+    size_t size = 1;
+    domain a[1] = {{9001, "discuss.codeforces.com"}};
+
+    task_4(a, size);
+}
+
+void test_t_4_2() {
+    size_t size = 4;
+    domain a[4] = {{900, "google.mail.com"},
+                     {50, "yahoo.com"},
+                     {1, "intel.mail.com"},
+                     {5, "wiki.org"}};
+    task_4(a, size);
+}
+
+void test_t_4() {
+    test_t_4_1();
+    printf("\n");
+    test_t_4_2();
+}
+
 void tests(){
     test_t_1();
     test_t_2();
     test_t_3();
+    test_t_4();
 }
 
 int main() {
-    test_t_3();
+    test_t_4();
 }

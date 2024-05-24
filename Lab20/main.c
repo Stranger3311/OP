@@ -504,7 +504,7 @@ void task_10(char *file_name, size_t count_output_lines, char *text) {
 void test_t_10_1() {
     char *file_name = "D:\\GitHub\\OP\\Lab20\\task_10_1.txt";
     size_t count_output_lines = 3;
-    char text[100] = "eWSAWD\nhmxgxg\nzsgkopc\n???";
+    char text[100] = "eWSAWD\nhmxgxg\nzsgkopc\nmksfhdhzfd";
     task_10(file_name, count_output_lines, text);
 }
 

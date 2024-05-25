@@ -411,7 +411,7 @@ void test_t_8(){
     test_t_8_2();
 }
 
-void writing_to_file(int *a, size_t a_len, char *file_name) {
+void write_to_file(int *a, size_t a_len, char *file_name) {
     FILE *file = fopen(file_name, "w");
     if (file == NULL) {
         printf("reading error\n");
@@ -450,7 +450,7 @@ void filter_files(vector *v, char *r_file_name, int N, char *w_file_name) {
 
 void task_9(int *a, size_t a_len, int N, char *first_file_name, char *second_file_name, vector *v) {
 
-    writing_to_file(a, a_len, first_file_name);
+    write_to_file(a, a_len, first_file_name);
 
     filter_files(v, first_file_name, N,second_file_name);
     shrinkToFit(v);
@@ -481,7 +481,7 @@ void opening_file_with_text(char *file_name, char *text) {
     fclose(file);
 }
 
-void task_10(char *file_name, size_t count_output_lines, char *text) {
+void task_10(char *file_name, size_t amount_output_lines, char *text) {
     opening_file_with_text(file_name, text);
 
     FILE *file = fopen(file_name, "r");
@@ -491,33 +491,68 @@ void task_10(char *file_name, size_t count_output_lines, char *text) {
     }
 
     char line[128];
-    size_t counter = 0;
+    size_t amount = 0;
     while (fgets(line, 128, file) != NULL) {
         printf("%s", line);
-        counter++;
-        if (counter == count_output_lines) {
-            printf("Press Ctrl + C for showing\n");
+        amount++;
+        if (amount == amount_output_lines) {
+            printf("Press Ctrl + C for continue\n");
             while (getch() != 3);
         }
     }
 }
+
 void test_t_10_1() {
-    char *file_name = "D:\\GitHub\\OP\\Lab20\\task_10_1.txt";
-    size_t count_output_lines = 3;
+    char *file = "D:\\GitHub\\OP\\Lab20\\task_10_1.txt";
+    size_t amount_output_lines = 3;
     char text[100] = "eWSAWD\nhmxgxg\nzsgkopc\nmksfhdhzfd";
-    task_10(file_name, count_output_lines, text);
+    task_10(file, amount_output_lines, text);
 }
 
 void test_t_10_2() {
-    char *file_name = "D:\\GitHub\\OP\\Lab20\\task_10_2.txt";
-    size_t count_output_lines = 4;
+    char *file = "D:\\GitHub\\OP\\Lab20\\task_10_2.txt";
+    size_t amount_output_lines = 4;
     char text[100] = "\nsfdsdf\n dasfdsa\n deasfdas\n";
-    task_10(file_name, count_output_lines, text);
+    task_10(file, amount_output_lines, text);
 }
 
 void test_t_10() {
     test_t_10_1();
-    //test_t_10_2();
+    test_t_10_2();
+}
+
+void task_11(char ** words, char* *requests, int *numbers_in_requests, int N, int Q) {
+
+    int amount_substring = 0;
+
+    for (int i = 0; i < Q; i++) {
+        for (int j = 0; j < N; j++) {
+
+            if (strstr(words[j], requests[i]) != NULL) {
+                amount_substring++;
+            }
+
+            if (amount_substring == numbers_in_requests[i]) {
+                printf("%d\n", j + 1);
+                break;
+            }
+        }
+
+        if (amount_substring < numbers_in_requests[i]) {
+            printf("-1\n");
+        }
+        amount_substring = 0;
+
+    }
+}
+
+void test_t_11() {
+    int N = 10;
+    int Q = 3;
+    char *words[10] = {"aa", "aaa", "aab", "ab", "abc", "ac","ba", "daa", "dab", "dadba"};
+    char *requests[3] = {"a", "da", "da"};
+    int numbers_in_requests[3] = {4, 2, 4};
+    task_11(words, requests, numbers_in_requests, N, Q);
 }
 
 void tests(){
@@ -531,8 +566,9 @@ void tests(){
     test_t_8();
     test_t_9();
     test_t_10();
+    test_t_11();
 }
 
 int main() {
-    test_t_10();
+    test_t_11();
 }

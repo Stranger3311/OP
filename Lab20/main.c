@@ -145,17 +145,17 @@ typedef struct domain {
 } domain;
 
 size_t find_domain_in_results(const domain *results, size_t size, char *s) {
-    for (size_t index = 0; index < size; index++) {
-        if (strcmp(results[index].name_site, s) == 0) {
-            return index;
+    for (size_t i = 0; i < size; i++) {
+        if (strcmp(results[i].name_site, s) == 0) {
+            return i;
         }
     }
     return size;
 }
 
 bool find_number_in_arr(const size_t array[], size_t length, size_t num) {
-    for (size_t index = 0; index < length; index++) {
-        if (num == array[index])
+    for (size_t i = 0; i < length; i++) {
+        if (num == array[i])
             return true;
     }
     return false;
@@ -342,7 +342,9 @@ tree_node* task_7(int *a, int left, int right) {
     }
     int max_pos = left;
     for (int i = left; i <= right; i++) {
-        if (a[i] > a[max_pos]) max_pos = i;
+        if (a[i] > a[max_pos]) {
+            max_pos = i;
+        }
     }
 
     tree_node* root = (tree_node*)malloc(sizeof(tree_node));
@@ -353,8 +355,8 @@ tree_node* task_7(int *a, int left, int right) {
     return root;
 }
 
-tree_node* task_7_start(int* numbers, int numbers_size) {
-    return task_7(numbers, 0, numbers_size - 1);
+tree_node* task_7_start(int* a, int numbers_size) {
+    return task_7(a, 0, numbers_size - 1);
 }
 
 void print_tree(tree_node* root) {
@@ -570,5 +572,5 @@ void tests(){
 }
 
 int main() {
-    test_t_11();
+    test_t_4();
 }

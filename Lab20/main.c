@@ -131,12 +131,12 @@ void test_t_3() {
 
     task_3(&m, filter_window);
 
-    matrix transformed_matrix = createMatrixFromArray((int[]) {10, 20, 30,
+    matrix res_matrix = createMatrixFromArray((int[]) {10, 20, 30,
                                                                  25, 25, 45,
                                                                  15, 25, 35},
                                                               3, 3);
 
-    assert(areTwoMatrixEqual(&m, &transformed_matrix));
+    assert(areTwoMatrixEqual(&m, &res_matrix));
 }
 
 typedef struct domain {
